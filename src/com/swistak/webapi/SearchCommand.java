@@ -9,6 +9,9 @@ import javax.xml.rpc.holders.BigIntegerHolder;
 import com.swistak.webapi.holders.Search_auctionsHolder;
 import com.swistak.webapi.holders.SwistakMessageHolder;
 
+/**
+ * http://www.swistak.pl/out/wsdl/wsdl.html?method=search_auctions
+ */
 public class SearchCommand implements Runnable {
 
 	final private String fraza;
