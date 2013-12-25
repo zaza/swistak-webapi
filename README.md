@@ -1,4 +1,4 @@
 swistak-webapi
 ==============
 
-Swistak.pl WebAPI for Java
+[Swistak.pl WebAPI](http://www.swistak.pl/out/wsdl/wsdl.html) for Java
