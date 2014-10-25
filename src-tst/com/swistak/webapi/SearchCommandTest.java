@@ -16,8 +16,8 @@ public class SearchCommandTest {
 	}
 
 	@Test
-	public void nie_ma_i_nie_bedzie() {
-		SearchCommand search = SearchCommand.fraza("nie ma i nie będzie");
+	public void random_string() {
+		SearchCommand search = SearchCommand.fraza("qwertyuiop");
 		search.run();
 		assertNull(search.total_found.value);
 		assertNull(search.search_auctions.value);
