@@ -10,9 +10,13 @@ public class Main {
 		SearchCommand search = SearchCommand.fraza("nokia").fraza_pomin("3310").cena_od(10).cena_do(20).miejscowosc("Warszawa").wojewodztwo(Wojewodztwo.mazowieckie);
 		search.run();
 		
-		System.out.println(String.format("Found %d items", search.total_found.value.intValue()));
-		for (Search_auction auction : search.search_auctions.value) {
-			System.out.println(String.format("* %s", auction.getTitle()));
+		if (search.total_found.value == null) {
+			System.out.println(String.format("Nothing found."));
+		} else {
+			System.out.println(String.format("Found %d items", search.total_found.value.intValue()));
+			for (Search_auction auction : search.search_auctions.value) {
+				System.out.println(String.format("* %s", auction.getTitle()));
+			}
 		}
 	}
 }
