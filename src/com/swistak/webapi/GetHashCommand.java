@@ -46,7 +46,6 @@ public class GetHashCommand implements Runnable {
 
 	@Override
 	public void run() {
-
 		SwistakLocator service = new SwistakLocator();
 		try {
 			SwistakPortType port = service.getSwistakPort();

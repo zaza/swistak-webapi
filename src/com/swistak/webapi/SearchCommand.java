@@ -47,7 +47,6 @@ public class SearchCommand implements Runnable {
 
 	@Override
 	public void run() {
-
 		total_found = new BigIntegerHolder();
 		search_auctions = new Search_auctionsHolder();
 		_return = new SwistakMessageHolder();
@@ -66,7 +65,6 @@ public class SearchCommand implements Runnable {
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	public SearchCommand fraza_pomin(String fraza_pomin) {
@@ -91,6 +89,11 @@ public class SearchCommand implements Runnable {
 
 	public SearchCommand wojewodztwo(long wojewodztwo) {
 		this.wojewodztwo = BigInteger.valueOf(wojewodztwo);
+		return this;
+	}
+
+	public SearchCommand login(String login) {
+		this.login = login;
 		return this;
 	}
 }
