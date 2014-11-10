@@ -1,8 +1,10 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.swistak.webapi.command.GetIdByLoginCommand;
 
 public class GetIdByLoginCommandTest {
 

@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-abstract class AbstractSwistakTest {
+import com.swistak.webapi.command.GetHashCommand;
+
+public abstract class AbstractSwistakTest {
 
 	protected String getHash() {
 		GetHashCommand getHash = new GetHashCommand(getLogin(), getPassword());
 		getHash.run();
-		return getHash.hash;
+		return getHash.getHash();
 	}
 
 	protected String getLogin() {

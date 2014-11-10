@@ -10,6 +10,7 @@ import com.swistak.webapi.Search_auction;
 import com.swistak.webapi.category.Category;
 import com.swistak.webapi.category.CategoryIdMatcher;
 import com.swistak.webapi.category.Tree;
+import com.swistak.webapi.command.SearchCommand;
 
 public class CategoryGuesser {
 

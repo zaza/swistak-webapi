@@ -1,9 +1,9 @@
-package com.swistak.webapi;
+package com.swistak.webapi.model;
 
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=get_hash
  */
-enum GetHashStatus {
+public enum GetHashStatus {
 	OK, 
 	/**
 	 * Błędny login lub hasło.

@@ -1,4 +1,4 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
@@ -6,8 +6,11 @@ import java.rmi.RemoteException;
 import javax.xml.rpc.ServiceException;
 import javax.xml.rpc.holders.BigIntegerHolder;
 
+import com.swistak.webapi.SwistakLocator;
+import com.swistak.webapi.SwistakPortType;
 import com.swistak.webapi.holders.Search_auctionsHolder;
 import com.swistak.webapi.holders.SwistakMessageHolder;
+import com.swistak.webapi.model.Wojewodztwo;
 
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=search_auctions
@@ -32,8 +35,8 @@ public class SearchCommand implements Runnable {
 	private BigInteger stan_towaru = BigInteger.ZERO;
 	private BigInteger limit = BigInteger.valueOf(20);
 
-	BigIntegerHolder total_found;
-	Search_auctionsHolder search_auctions;
+	public BigIntegerHolder total_found;
+	public Search_auctionsHolder search_auctions;
 	SwistakMessageHolder _return;
 	SwistakMessageHolder err;
 

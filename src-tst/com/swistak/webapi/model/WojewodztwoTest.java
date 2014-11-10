@@ -1,8 +1,10 @@
-package com.swistak.webapi;
+package com.swistak.webapi.model;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.swistak.webapi.Province;
 
 public class WojewodztwoTest {
 	@Test

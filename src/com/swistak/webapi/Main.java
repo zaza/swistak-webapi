@@ -3,6 +3,9 @@ import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
 
+import com.swistak.webapi.command.SearchCommand;
+import com.swistak.webapi.model.Wojewodztwo;
+
 public class Main {
 	public static void main(String[] args) throws ServiceException,
 			RemoteException {

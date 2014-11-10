@@ -1,9 +1,12 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
+
+import com.swistak.webapi.SwistakLocator;
+import com.swistak.webapi.SwistakPortType;
 
 public class GetIdByLoginCommand implements Runnable {
 

@@ -10,7 +10,6 @@ import java.io.File;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.swistak.webapi.category.Category;
 import com.swistak.webapi.category.CategoryTreeBuilder;
 import com.swistak.webapi.category.Tree;
 import com.swistak.webapi.category.Tree.TreeNode;

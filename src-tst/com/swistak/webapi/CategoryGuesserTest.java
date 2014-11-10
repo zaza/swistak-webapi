@@ -11,6 +11,8 @@ import com.swistak.webapi.category.Category;
 import com.swistak.webapi.category.CategoryIdMatcher;
 import com.swistak.webapi.category.CategoryTreeBuilder;
 import com.swistak.webapi.category.Tree;
+import com.swistak.webapi.command.GetMyAuctionsCommand;
+import com.swistak.webapi.command.SearchCommand;
 
 public class CategoryGuesserTest extends AbstractSwistakTest {
 

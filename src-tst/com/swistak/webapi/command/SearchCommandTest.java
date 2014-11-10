@@ -1,10 +1,10 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.swistak.webapi.SearchCommand;
+import com.swistak.webapi.command.SearchCommand;
 
 public class SearchCommandTest {
 

@@ -1,4 +1,4 @@
-package com.swistak.webapi;
+package com.swistak.webapi.model;
 
 import java.math.BigInteger;
 

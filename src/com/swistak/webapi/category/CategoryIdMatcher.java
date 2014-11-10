@@ -1,5 +1,6 @@
 package com.swistak.webapi.category;
 
+
 public class CategoryIdMatcher implements Matcher<Category> {
 
 	private long id;

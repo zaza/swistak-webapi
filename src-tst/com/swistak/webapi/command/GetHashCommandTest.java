@@ -1,9 +1,12 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+
+import com.swistak.webapi.command.GetHashCommand;
+import com.swistak.webapi.model.GetHashStatus;
 
 public class GetHashCommandTest {
 

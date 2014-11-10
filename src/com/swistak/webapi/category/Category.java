@@ -1,5 +1,6 @@
 package com.swistak.webapi.category;
 
+// TODO: move to .model ?
 public class Category {
 
 	public static final Category UNKNOWN = new Category(-1, "<unknown>");

@@ -1,8 +1,11 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.swistak.webapi.AbstractSwistakTest;
+import com.swistak.webapi.command.GetMyAuctionsCommand;
 
 public class GetMyAuctionsCommandTest extends AbstractSwistakTest {
 

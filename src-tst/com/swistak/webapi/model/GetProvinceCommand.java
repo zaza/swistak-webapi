@@ -1,8 +1,12 @@
-package com.swistak.webapi;
+package com.swistak.webapi.model;
 
 import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
+
+import com.swistak.webapi.Province;
+import com.swistak.webapi.SwistakLocator;
+import com.swistak.webapi.SwistakPortType;
 
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=get_province

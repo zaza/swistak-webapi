@@ -1,4 +1,4 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
@@ -6,6 +6,8 @@ import java.rmi.RemoteException;
 import javax.xml.rpc.ServiceException;
 import javax.xml.rpc.holders.BigIntegerHolder;
 
+import com.swistak.webapi.SwistakLocator;
+import com.swistak.webapi.SwistakPortType;
 import com.swistak.webapi.holders.My_auctionsHolder;
 
 public class GetMyAuctionsCommand implements Runnable {
@@ -16,7 +18,7 @@ public class GetMyAuctionsCommand implements Runnable {
 	private BigInteger limit = BigInteger.valueOf(25);
 
 	BigIntegerHolder total_auctions= new BigIntegerHolder();
-	My_auctionsHolder my_auctions = new My_auctionsHolder();
+	public My_auctionsHolder my_auctions = new My_auctionsHolder();
 	
 	public GetMyAuctionsCommand(String hash) {
 		this.hash = hash;

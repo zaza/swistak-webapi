@@ -1,4 +1,4 @@
-package com.swistak.webapi;
+package com.swistak.webapi.command;
 
 import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
@@ -8,6 +8,10 @@ import java.security.NoSuchAlgorithmException;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.axis.AxisFault;
+
+import com.swistak.webapi.SwistakLocator;
+import com.swistak.webapi.SwistakPortType;
+import com.swistak.webapi.model.GetHashStatus;
 
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=get_hash
@@ -20,7 +24,7 @@ public class GetHashCommand implements Runnable {
 	String hash;
 	GetHashStatus status;
 
-	GetHashCommand(String login, String pass) {
+	public GetHashCommand(String login, String pass) {
 		this.login = login;
 		this.pass = md5(pass);
 	}
@@ -61,7 +65,7 @@ public class GetHashCommand implements Runnable {
 			} else if ("ERR_USER_BLOCKED".equals(faultCode)) {
 				status = GetHashStatus.ERR_USER_BLOCKED;
 				return;
-			}else if ("ERR_USER_BLOCKED_ONE_HOUR".equals(faultCode)) {
+			} else if ("ERR_USER_BLOCKED_ONE_HOUR".equals(faultCode)) {
 				status = GetHashStatus.ERR_USER_BLOCKED_ONE_HOUR;
 				return;
 			}
@@ -69,6 +73,10 @@ public class GetHashCommand implements Runnable {
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public String getHash() {
+		return hash;
 	}
 
 }
