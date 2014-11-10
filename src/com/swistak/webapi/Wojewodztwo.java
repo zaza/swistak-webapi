@@ -1,21 +1,33 @@
 package com.swistak.webapi;
 
-public class Wojewodztwo {
-	final static int dolnośląskie = 1;
-	final static int kujawsko_pomorskie = 2;
-	final static int lubelskie = 3;
-	final static int lubuskie = 4;
-	final static int łódzkie = 5;
-	final static int małopolskie = 6;
-	final static int mazowieckie = 7;
-	final static int opolskie = 8;
-	final static int podkarpackie = 9;
-	final static int podlaskie = 10;
-	final static int pomorskie = 11;
-	final static int śląskie = 12;
-	final static int świętokrzyskie = 13;
-	final static int warmińsko_mazurskie = 14;
-	final static int wielkopolskie = 15;
-	final static int zachodniopomorskie = 16;
-	final static int zagranica = 99;
+import java.math.BigInteger;
+
+public enum Wojewodztwo {
+	dolnośląskie(1), //
+	kujawsko_pomorskie(2), //
+	lubelskie(3), //
+	lubuskie(4), //
+	łódzkie(5), //
+	małopolskie(6), //
+	mazowieckie(7), //
+	opolskie(8), //
+	podkarpackie(9), //
+	podlaskie(10), //
+	pomorskie(11), //
+	śląskie(12), //
+	świętokrzyskie(13), //
+	warmińsko_mazurskie(14), //
+	wielkopolskie(15), //
+	zachodniopomorskie(16), //
+	zagranica(99);
+
+	private int id;
+
+	Wojewodztwo(int id) {
+		this.id = id;
+	}
+
+	public BigInteger toBigInteger() {
+		return BigInteger.valueOf(id);
+	}
 }

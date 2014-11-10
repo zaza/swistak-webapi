@@ -87,8 +87,8 @@ public class SearchCommand implements Runnable {
 		return this;
 	}
 
-	public SearchCommand wojewodztwo(long wojewodztwo) {
-		this.wojewodztwo = BigInteger.valueOf(wojewodztwo);
+	public SearchCommand wojewodztwo(Wojewodztwo wojewodztwo) {
+		this.wojewodztwo = wojewodztwo.toBigInteger();
 		return this;
 	}
 
