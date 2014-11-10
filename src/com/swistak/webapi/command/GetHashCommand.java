@@ -1,5 +1,7 @@
 package com.swistak.webapi.command;
 
+import static java.lang.String.format;
+
 import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
@@ -36,7 +38,7 @@ public class GetHashCommand implements Runnable {
 			byte[] hash = md.digest(bytes);
 			StringBuilder sb = new StringBuilder(2 * hash.length);
 			for (byte b : hash) {
-				sb.append(String.format("%02x", b & 0xff));
+				sb.append(format("%02x", b & 0xff));
 			}
 			return sb.toString();
 		} catch (UnsupportedEncodingException e) {

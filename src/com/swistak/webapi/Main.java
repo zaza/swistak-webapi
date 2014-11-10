@@ -1,4 +1,7 @@
 package com.swistak.webapi;
+
+import static java.lang.String.format;
+
 import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
@@ -14,11 +17,11 @@ public class Main {
 		search.run();
 		
 		if (search.total_found.value == null) {
-			System.out.println(String.format("Nothing found."));
+			System.err.println(format("Nothing found."));
 		} else {
-			System.out.println(String.format("Found %d items", search.total_found.value.intValue()));
+			System.out.println(format("Found %d items", search.total_found.value.intValue()));
 			for (Search_auction auction : search.search_auctions.value) {
-				System.out.println(String.format("* %s", auction.getTitle()));
+				System.out.println(format("* %s", auction.getTitle()));
 			}
 		}
 	}

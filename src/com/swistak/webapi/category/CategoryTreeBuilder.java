@@ -1,5 +1,6 @@
 package com.swistak.webapi.category;
-import static java.text.MessageFormat.format;
+
+import static java.lang.String.format;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class CategoryTreeBuilder {
 					parent.addChild(childTreeNode);
 				} else {
 					exceptions.add(new IllegalStateException(format(
-							"No parent found for {0}", id)));
+							"No parent found for %d", id)));
 				}
 			}
 		}

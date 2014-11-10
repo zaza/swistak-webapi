@@ -1,6 +1,6 @@
 package com.swistak.webapi;
 
-import static java.text.MessageFormat.format;
+import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -43,14 +43,14 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 		My_auction[] auctions = myAuctions.my_auctions.value;
 
 		// TODO: founds first 25
-		System.out.println(format("Found {0}", auctions.length));
+		System.out.println(format("Found %d", auctions.length));
 		for (My_auction my_auction : auctions) {
 			int catSwistakId = my_auction.getCategory_id().intValue();
 			String catSwistakName = getCategoryName(catSwistakId);
 			Category catGuess = CategoryGuesser.withCategoryTree(getTree())
 					.guess(my_auction.getTitle());
 			// TODO: replace with assert
-			System.out.println(format("{0}: {1} ({2}) ?=? {3} ({4})",
+			System.out.println(format("%s: %d (%s) ?=? %d (%s)",
 					my_auction.getTitle(), catSwistakId, catSwistakName,
 					catGuess.getId(), catGuess.getName()));
 		}

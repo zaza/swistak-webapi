@@ -1,7 +1,5 @@
 package com.swistak.webapi;
 
-import static java.text.MessageFormat.format;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +31,7 @@ public abstract class AbstractSwistakTest {
 			prop.load(input);
 			return prop;
 		} catch (IOException e) {
-			throw new IllegalStateException(format("Error reading {0}."), e);
+			throw new IllegalStateException("Error reading data-tst/credentials.properties.", e);
 		} finally {
 			if (input != null) {
 				try {
