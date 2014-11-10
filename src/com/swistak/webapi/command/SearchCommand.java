@@ -33,7 +33,7 @@ public class SearchCommand implements Runnable {
 	private BigInteger strona = BigInteger.ONE;
 	private BigInteger opis = BigInteger.ZERO;
 	private BigInteger stan_towaru = BigInteger.ZERO;
-	private BigInteger limit = BigInteger.valueOf(20);
+	private BigInteger limit = BigInteger.valueOf(100);
 
 	public BigIntegerHolder total_found;
 	public Search_auctionsHolder search_auctions;

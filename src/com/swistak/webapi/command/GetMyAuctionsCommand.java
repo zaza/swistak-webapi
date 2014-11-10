@@ -15,7 +15,7 @@ public class GetMyAuctionsCommand implements Runnable {
 	private String hash;
 	private long userId = 0;
 	private BigInteger offset = BigInteger.ONE;
-	private BigInteger limit = BigInteger.valueOf(25);
+	private BigInteger limit = BigInteger.valueOf(1000);
 
 	BigIntegerHolder total_auctions= new BigIntegerHolder();
 	public My_auctionsHolder my_auctions = new My_auctionsHolder();
