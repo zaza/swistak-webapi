@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kategorie date="2014-11-10 17:58:59">
+	<kategoria>
+		<id><![CDATA[1]]></id>
+		<name><![CDATA[Level1]]></name>
+		<parent><![CDATA[0]]></parent>
+		<poziom><![CDATA[0]]></poziom>
+		<ids><![CDATA[1]]></ids>
+	</kategoria>
+	<kategoria>
+		<id><![CDATA[2]]></id>
+		<name><![CDATA[Level2]]></name>
+		<parent><![CDATA[1]]></parent>
+		<poziom><![CDATA[1]]></poziom>
+		<ids><![CDATA[1,2]]></ids>
+	</kategoria>
+	<kategoria>
+		<id><![CDATA[3]]></id>
+		<name><![CDATA[Level3]]></name>
+		<parent><![CDATA[2]]></parent>
+		<poziom><![CDATA[2]]></poziom>
+		<ids><![CDATA[1,2,3]]></ids>
+	</kategoria>
+</kategorie>

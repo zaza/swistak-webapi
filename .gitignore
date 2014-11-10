@@ -1,3 +1,4 @@
 src-gen
 bin
 target
+data-tst/credentials.properties
