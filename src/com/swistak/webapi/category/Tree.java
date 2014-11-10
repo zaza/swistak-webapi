@@ -1,6 +1,7 @@
 package com.swistak.webapi.category;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Tree<T> {
@@ -20,7 +21,7 @@ public class Tree<T> {
 			this.data = data;
 			this.children = new ArrayList<TreeNode<T>>();
 		}
-		
+
 		void addChild(TreeNode<T> child) {
 			children.add(child);
 			child.parent = this;
@@ -39,7 +40,7 @@ public class Tree<T> {
 		public List<TreeNode<T>> getChildren() {
 			return children;
 		}
-		
+
 		public T getData() {
 			return data;
 		}
@@ -59,9 +60,9 @@ public class Tree<T> {
 		for (TreeNode<T> child : children) {
 			if (matcher.match(child.data))
 				return child;
-			 TreeNode<T> find = find(child.children, matcher);
-			 if (find != null)
-				 return find;
+			TreeNode<T> find = find(child.children, matcher);
+			if (find != null)
+				return find;
 		}
 		return null;
 	}
@@ -69,7 +70,7 @@ public class Tree<T> {
 	int getSize() {
 		return getSize(root);
 	}
-	
+
 	private int getSize(TreeNode<T> node) {
 		int result = node.getChildren().size();
 		for (TreeNode<T> child : node.getChildren()) {
@@ -77,5 +78,18 @@ public class Tree<T> {
 		}
 		return result;
 	}
-	
+
+	public List<TreeNode<T>> getFullPath(TreeNode<T> node) {
+		List<TreeNode<T>> path = new ArrayList<TreeNode<T>>();
+		path.add(node);
+		TreeNode<T> p = node.parent;
+		while (p != null) {
+			path.add(p);
+			p = p.parent;
+		}
+		path.remove(path.size() - 1); // remove last i.e. root
+		Collections.reverse(path);
+		return path;
+	}
+
 }
