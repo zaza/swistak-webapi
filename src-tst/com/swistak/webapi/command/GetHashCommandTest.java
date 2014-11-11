@@ -1,14 +1,16 @@
 package com.swistak.webapi.command;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.swistak.webapi.AbstractSwistakTest;
 import com.swistak.webapi.command.GetHashCommand;
 import com.swistak.webapi.model.GetHashStatus;
 
-public class GetHashCommandTest {
+public class GetHashCommandTest extends AbstractSwistakTest {
 
 	@Test
 	public void md5() {
@@ -42,5 +44,14 @@ public class GetHashCommandTest {
 
 		assertEquals(GetHashStatus.ERR_USER_BLOCKED_ONE_HOUR, getHash.status);
 		assertNull(getHash.hash);
+	}
+	
+	@Test
+	public void valid_credentials() {
+		GetHashCommand getHash = new GetHashCommand(getLogin(), getPassword());
+		getHash.run();
+
+		assertEquals(GetHashStatus.OK, getHash.status);
+		assertNotNull(getHash.hash);
 	}
 }

@@ -61,17 +61,8 @@ public class GetHashCommand implements Runnable {
 			throw new RuntimeException(e);
 		} catch (AxisFault e) {
 			String faultCode = e.getFaultCode().getLocalPart();
-			if ("ERR_USER_PASSWD".equals(faultCode)) {
-				status = GetHashStatus.ERR_USER_PASSWD;
-				return;
-			} else if ("ERR_USER_BLOCKED".equals(faultCode)) {
-				status = GetHashStatus.ERR_USER_BLOCKED;
-				return;
-			} else if ("ERR_USER_BLOCKED_ONE_HOUR".equals(faultCode)) {
-				status = GetHashStatus.ERR_USER_BLOCKED_ONE_HOUR;
-				return;
-			}
-			throw new RuntimeException("Unknown fault code", e);
+			status = GetHashStatus.valueOf(faultCode);
+			return;
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}
