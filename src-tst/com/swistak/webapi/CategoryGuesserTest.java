@@ -2,6 +2,7 @@ package com.swistak.webapi;
 
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Iterator;
@@ -60,6 +61,15 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 					catGuess.getId(), catGuessPath));
 			}
 		}
+	}
+	
+	@Test
+	public void guess_opony() {
+		Category category = CategoryGuesser.withCategoryTree(getTree())
+				.guess("opony letnie");
+		String fullPath = getCategoryFullPath(category.getId());
+		
+		assertTrue(fullPath.startsWith("Motoryzacja > Ogumienie > Opony samochodowe > Letnie >"));
 	}
 
 	private String getCategoryFullPath(long id) {
