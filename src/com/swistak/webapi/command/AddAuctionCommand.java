@@ -24,12 +24,12 @@ public class AddAuctionCommand implements Runnable {
 	public LongHolder id = new LongHolder();
 	public LongHolder id_out = new LongHolder();
 	private AddAuctionStatus status;
-	
+
 	public AddAuctionCommand(String hash, Auction_params params) {
 		this.hash  = hash;
 		this.params = params;
 	}
-	
+
 	@Override
 	public void run() {
 		SwistakLocator service = new SwistakLocator();
@@ -50,7 +50,7 @@ public class AddAuctionCommand implements Runnable {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public AddAuctionStatus getStatus() {
 		return status;
 	}
