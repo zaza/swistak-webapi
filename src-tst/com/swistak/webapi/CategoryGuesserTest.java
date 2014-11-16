@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.swistak.webapi.category.Category;
@@ -41,6 +42,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 	}
 
 	@Test
+	@Ignore
 	public void guess_category_for_my_auctions() {
 		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash());
 		myAuctions.run();

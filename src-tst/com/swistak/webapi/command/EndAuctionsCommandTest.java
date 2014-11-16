@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.swistak.webapi.AbstractSwistakTest;
 import com.swistak.webapi.Ids;
-import com.swistak.webapi.model.EndAuctionStatus;
+import com.swistak.webapi.model.EndAuctionsStatus;
 
 public class EndAuctionsCommandTest extends AbstractSwistakTest {
 
@@ -16,7 +16,7 @@ public class EndAuctionsCommandTest extends AbstractSwistakTest {
 		EndAuctionsCommand endAuctions = new EndAuctionsCommand("bad-hash", new Ids[] {});
 		endAuctions.run();
 
-		assertEquals(EndAuctionStatus.ERR_AUTHORIZATION, endAuctions.status);
+		assertEquals(EndAuctionsStatus.ERR_AUTHORIZATION, endAuctions.getStatus());
 		assertTrue(endAuctions.getEndAuctions().isEmpty());
 	}
 
@@ -25,7 +25,7 @@ public class EndAuctionsCommandTest extends AbstractSwistakTest {
 		EndAuctionsCommand endAuctions = new EndAuctionsCommand(getHash(), new Ids[] {});
 		endAuctions.run();
 
-		assertEquals(EndAuctionStatus.OK, endAuctions.status);
+		assertEquals(EndAuctionsStatus.OK, endAuctions.getStatus());
 		assertTrue(endAuctions.getEndAuctions().isEmpty());
 	}
 
@@ -34,7 +34,7 @@ public class EndAuctionsCommandTest extends AbstractSwistakTest {
 		EndAuctionsCommand endAuctions = new EndAuctionsCommand(getHash(), new Ids[] {new Ids(-1, -1)});
 		endAuctions.run();
 
-		assertEquals(EndAuctionStatus.OK, endAuctions.status);
+		assertEquals(EndAuctionsStatus.OK, endAuctions.getStatus());
 		assertTrue(endAuctions.getEndAuctions().isEmpty());
 	}
 }

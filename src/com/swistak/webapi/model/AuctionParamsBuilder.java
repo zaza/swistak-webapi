@@ -83,6 +83,7 @@ public class AuctionParamsBuilder {
 	
 	public Auction_params build() {
 		checkMaxLength(title, 50);
+		checkMinValue(price, 0.01f);
 		checkMaxValue(price, 100000000);
 		checkMaxValue(count, 9999999);
 		checkMinLength(description, 20);
@@ -142,27 +143,27 @@ public class AuctionParamsBuilder {
 		}
 		return builder;
 	}
-	
+
 	private static void checkMinLength(String string, int length) {
 		if (string.length() < length)
 			throw new IllegalArgumentException(format("'{0}' is too short. Minimum length for the param is {1}.", string, length));
 	}
-	
+
 	private static void checkMaxLength(String string, int length) {
 		if (string.length() > length)
 			throw new IllegalArgumentException(format("'{0}' is too long. Maximum length for the param is {1}.", string, length));
 	}
-	
-	private static void checkMinValue(int number, int value) {
-		if (number > value)
+
+	private static void checkMinValue(Number number, Number value) {
+		if (number.doubleValue() < value.doubleValue())
 			throw new IllegalArgumentException(format("{0} is too low. Minimum value for the param is {1}.", number, value));
 	}
 
-	private static void checkMaxValue(float number, int value) {
-		if (number > value)
+	private static void checkMaxValue(Number number, Number value) {
+		if (number.doubleValue() > value.doubleValue())
 			throw new IllegalArgumentException(format("{0} is too high. Maximum value for the param is {1}.", number, value));
 	}
-	
+
 	private static void checkNotEmpty(String string) {
 		if (string == null || string.isEmpty())
 				throw new IllegalArgumentException("Expected a non-empty string.");

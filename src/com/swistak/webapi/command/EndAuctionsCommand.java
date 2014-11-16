@@ -13,7 +13,7 @@ import org.apache.axis.AxisFault;
 import com.swistak.webapi.Ids;
 import com.swistak.webapi.SwistakLocator;
 import com.swistak.webapi.SwistakPortType;
-import com.swistak.webapi.model.EndAuctionStatus;
+import com.swistak.webapi.model.EndAuctionsStatus;
 
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=end_auctions
@@ -26,7 +26,7 @@ public class EndAuctionsCommand implements Runnable {
 	public BigInteger[] id_out;
 
 	private List<Ids> end_auctions = new ArrayList<Ids>();
-	EndAuctionStatus status;
+	private EndAuctionsStatus status;
 
 	public EndAuctionsCommand(String hash, Ids[] ids) {
 		this.hash  = hash;
@@ -40,12 +40,12 @@ public class EndAuctionsCommand implements Runnable {
 		try {
 			SwistakPortType port = service.getSwistakPort();
 			end_auctions = Arrays.asList(port.end_auctions(hash, id, id_out));
-			status = EndAuctionStatus.OK;
+			status = EndAuctionsStatus.OK;
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		} catch (AxisFault e) {
 			String faultCode = e.getFaultCode().getLocalPart();
-			status = EndAuctionStatus.valueOf(faultCode);
+			status = EndAuctionsStatus.valueOf(faultCode);
 			return;
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
@@ -54,6 +54,10 @@ public class EndAuctionsCommand implements Runnable {
 
 	public List<Ids> getEndAuctions() {
 		return end_auctions;
+	}
+
+	public EndAuctionsStatus getStatus() {
+		return status;
 	}
 
 	private static BigInteger[] toIds(Ids[] ids) {

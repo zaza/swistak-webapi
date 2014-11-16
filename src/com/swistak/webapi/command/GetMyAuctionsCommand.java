@@ -23,16 +23,16 @@ public class GetMyAuctionsCommand implements Runnable {
 
 	BigIntegerHolder total_auctions= new BigIntegerHolder();
 	public My_auctionsHolder my_auctions = new My_auctionsHolder();
-	
+
 	public GetMyAuctionsCommand(String hash) {
 		this.hash = hash;
 	}
-	
+
 	public GetMyAuctionsCommand userId(long userId) {
 		this.userId = userId;
 		return this;
 	}
-	
+
 	@Override
 	public void run() {
 		SwistakLocator service = new SwistakLocator();

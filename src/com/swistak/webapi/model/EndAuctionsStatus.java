@@ -1,6 +1,6 @@
 package com.swistak.webapi.model;
 
-public enum EndAuctionStatus {
+public enum EndAuctionsStatus {
 	OK,
 	/**
 	 * Niepoprawny hash lub sesja utraciła ważność.
