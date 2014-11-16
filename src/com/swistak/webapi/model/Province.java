@@ -2,7 +2,7 @@ package com.swistak.webapi.model;
 
 import java.math.BigInteger;
 
-public enum Wojewodztwo {
+public enum Province {
 	Dolnośląskie(1), //
 	Kujawsko_pomorskie(2), //
 	Lubelskie(3), //
@@ -23,7 +23,7 @@ public enum Wojewodztwo {
 
 	private int id;
 
-	Wojewodztwo(int id) {
+	Province(int id) {
 		this.id = id;
 	}
 

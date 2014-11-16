@@ -10,7 +10,7 @@ import com.swistak.webapi.SwistakLocator;
 import com.swistak.webapi.SwistakPortType;
 import com.swistak.webapi.holders.Search_auctionsHolder;
 import com.swistak.webapi.holders.SwistakMessageHolder;
-import com.swistak.webapi.model.Wojewodztwo;
+import com.swistak.webapi.model.Province;
 
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=search_auctions
@@ -90,7 +90,7 @@ public class SearchCommand implements Runnable {
 		return this;
 	}
 
-	public SearchCommand wojewodztwo(Wojewodztwo wojewodztwo) {
+	public SearchCommand wojewodztwo(Province wojewodztwo) {
 		this.wojewodztwo = wojewodztwo.toBigInteger();
 		return this;
 	}

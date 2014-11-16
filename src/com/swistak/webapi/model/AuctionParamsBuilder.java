@@ -16,28 +16,23 @@ public class AuctionParamsBuilder {
 
 	private final String title;
 	private final float price;
-	private AuctionType type;
+	private AuctionType type = AuctionType.kup_teraz;
 	private int category;
 	private String city;
 	private ConditionProduct condition;
-	private DeliveryInfo[] deliveryInfo;
+	private DeliveryInfo[] deliveryInfo = new DeliveryInfo[]{DeliveryInfo.odbiór_osobisty};
 	private String description;
-	private int count = 0;
-	private Auction_costs_delivery costs_delivery;
-	private AuctionUnit unit;
-	private WhoPayment whoPayment;
-	private Wojewodztwo province;
+	private int count = 1;
+	private Auction_costs_delivery costs_delivery = noCostsDelivery();
+	private AuctionUnit unit = AuctionUnit.sztuki;
+	private WhoPayment whoPayment = WhoPayment.kupujący;
+	private Province province;
 	private String tags;
 	private long id_out = NOT_SET;
 
 	public AuctionParamsBuilder(String title, float price) {
 		this.title = title;
 		this.price = price;
-		this.type = AuctionType.kup_teraz;
-		this.deliveryInfo = new DeliveryInfo[]{DeliveryInfo.odbiór_osobisty};
-		this.costs_delivery = noCostsDelivery();
-		this.unit = AuctionUnit.sztuki;
-		this.whoPayment = WhoPayment.kupujący;
 		this.tags = title;
 	}
 	
@@ -76,7 +71,7 @@ public class AuctionParamsBuilder {
 		return this;
 	}
 
-	public AuctionParamsBuilder province(Wojewodztwo province) {
+	public AuctionParamsBuilder province(Province province) {
 		this.province = province;
 		return this;
 	}
@@ -105,7 +100,7 @@ public class AuctionParamsBuilder {
 		params.setCity(city);
 		params.setCondition_product(condition.toBigInteger());
 		params.setCosts_delivery(costs_delivery);
-		params.setDelivery_info(createBuilder(deliveryInfo).toBigInteger());
+		params.setDelivery_info(createBuilder(deliveryInfo).build());
 		params.setDescription(description);
 		params.setFotos(new Auction_foto[0]); // TODO
 		if (id_out != NOT_SET)
@@ -150,12 +145,12 @@ public class AuctionParamsBuilder {
 	
 	private static void checkMinLength(String string, int length) {
 		if (string.length() < length)
-			throw new IllegalArgumentException(format("{0} is too short. Minimum length for the param is {1}.", string, length));
+			throw new IllegalArgumentException(format("'{0}' is too short. Minimum length for the param is {1}.", string, length));
 	}
 	
 	private static void checkMaxLength(String string, int length) {
 		if (string.length() > length)
-			throw new IllegalArgumentException(format("{0} is too long. Maximum length for the param is {1}.", string, length));
+			throw new IllegalArgumentException(format("'{0}' is too long. Maximum length for the param is {1}.", string, length));
 	}
 	
 	private static void checkMinValue(int number, int value) {
@@ -167,7 +162,6 @@ public class AuctionParamsBuilder {
 		if (number > value)
 			throw new IllegalArgumentException(format("{0} is too high. Maximum value for the param is {1}.", number, value));
 	}
-	
 	
 	private static void checkNotEmpty(String string) {
 		if (string == null || string.isEmpty())

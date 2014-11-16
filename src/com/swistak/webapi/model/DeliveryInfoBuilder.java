@@ -15,7 +15,7 @@ public class DeliveryInfoBuilder {
 		return this;
 	}
 
-	public BigInteger toBigInteger() {
+	public BigInteger build() {
 		return BigInteger.valueOf(sum);
 	}
 }

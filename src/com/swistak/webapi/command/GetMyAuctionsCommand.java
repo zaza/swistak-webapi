@@ -10,6 +10,10 @@ import com.swistak.webapi.SwistakLocator;
 import com.swistak.webapi.SwistakPortType;
 import com.swistak.webapi.holders.My_auctionsHolder;
 
+/**
+ * http://www.swistak.pl/out/wsdl/wsdl.html?method=get_my_auctions
+ *
+ */
 public class GetMyAuctionsCommand implements Runnable {
 
 	private String hash;

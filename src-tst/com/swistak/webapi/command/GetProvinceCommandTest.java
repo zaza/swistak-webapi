@@ -7,8 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.swistak.webapi.Province;
-import com.swistak.webapi.model.Wojewodztwo;
+import com.swistak.webapi.model.Province;
 
 public class GetProvinceCommandTest {
 
@@ -17,12 +16,12 @@ public class GetProvinceCommandTest {
 		GetProvinceCommand getProvince = new GetProvinceCommand();
 		getProvince.run();
 
-		List<Province> provinces = getProvince.getProvince();
-		for (Province province : provinces) {
-			Wojewodztwo.valueOf(province.getProvince().replace('-', '_').replace(' ', '$'));
+		List<com.swistak.webapi.Province> provinces = getProvince.getProvince();
+		for (com.swistak.webapi.Province province : provinces) {
+			Province.valueOf(province.getProvince().replace('-', '_').replace(' ', '$'));
 		}
-		for (Wojewodztwo wojewodztwo : Wojewodztwo.values()) {
-			Province province = new Province(wojewodztwo.toBigInteger(), wojewodztwo.name().replace('_', '-').replace('$', ' '));
+		for (Province wojewodztwo : Province.values()) {
+			com.swistak.webapi.Province province = new com.swistak.webapi.Province(wojewodztwo.toBigInteger(), wojewodztwo.name().replace('_', '-').replace('$', ' '));
 			assertTrue(format("No province found for %s", wojewodztwo.name()), provinces.contains(province));
 		}
 	}
