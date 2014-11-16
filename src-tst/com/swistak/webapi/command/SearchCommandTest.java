@@ -1,23 +1,23 @@
 package com.swistak.webapi.command;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import com.swistak.webapi.command.SearchCommand;
 
 public class SearchCommandTest {
 
 	@Test
 	public void nokia() {
-		SearchCommand search = SearchCommand.fraza("nokia");
+		SearchAuctionsCommand search = SearchAuctionsCommand.fraza("nokia");
 		search.run();
 		assertTrue(search.total_found.value.intValue() > 0);
 	}
 
 	@Test
 	public void random_string() {
-		SearchCommand search = SearchCommand.fraza("qwertyuiop");
+		SearchAuctionsCommand search = SearchAuctionsCommand.fraza("qwertyuiop");
 		search.run();
 		assertNull(search.total_found.value);
 		assertNull(search.search_auctions.value);

@@ -22,8 +22,8 @@ public class GetHashCommandTest extends AbstractSwistakTest {
 	public void not_run() {
 		GetHashCommand getHash = new GetHashCommand("whatever", "does-not-matter");
 
-		assertNull(getHash.status);
-		assertNull(getHash.hash);
+		assertNull(getHash.getStatus());
+		assertNull(getHash.getHash());
 	}
 
 	@Test
@@ -31,8 +31,8 @@ public class GetHashCommandTest extends AbstractSwistakTest {
 		GetHashCommand getHash = new GetHashCommand("bad-user", "bad-password");
 		getHash.run();
 
-		assertEquals(GetHashStatus.ERR_USER_PASSWD, getHash.status);
-		assertNull(getHash.hash);
+		assertEquals(GetHashStatus.ERR_USER_PASSWD, getHash.getStatus());
+		assertNull(getHash.getHash());
 	}
 	
 	@Test
@@ -42,8 +42,8 @@ public class GetHashCommandTest extends AbstractSwistakTest {
 			getHash.run();
 		}
 
-		assertEquals(GetHashStatus.ERR_USER_BLOCKED_ONE_HOUR, getHash.status);
-		assertNull(getHash.hash);
+		assertEquals(GetHashStatus.ERR_USER_BLOCKED_ONE_HOUR, getHash.getStatus());
+		assertNull(getHash.getHash());
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ public class GetHashCommandTest extends AbstractSwistakTest {
 		GetHashCommand getHash = new GetHashCommand(getLogin(), getPassword());
 		getHash.run();
 
-		assertEquals(GetHashStatus.OK, getHash.status);
-		assertNotNull(getHash.hash);
+		assertEquals(GetHashStatus.OK, getHash.getStatus());
+		assertNotNull(getHash.getHash());
 	}
 }

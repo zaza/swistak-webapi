@@ -101,7 +101,7 @@ public class AuctionParamsBuilder {
 		params.setCity(city);
 		params.setCondition_product(condition.toBigInteger());
 		params.setCosts_delivery(costs_delivery);
-		params.setDelivery_info(createBuilder(deliveryInfo).build());
+		params.setDelivery_info(createDeliveryInfoBuilder().build());
 		params.setDescription(description);
 		params.setFotos(new Auction_foto[0]); // TODO
 		if (id_out != NOT_SET)
@@ -134,7 +134,7 @@ public class AuctionParamsBuilder {
 		return costs_delivery;
 	}
 
-	private DeliveryInfoBuilder createBuilder(DeliveryInfo[] deliveryInfo2) {
+	private DeliveryInfoBuilder createDeliveryInfoBuilder() {
 		DeliveryInfoBuilder builder = new DeliveryInfoBuilder(deliveryInfo[0]);
 		if (deliveryInfo.length > 1) {
 			for (int i = 1; i < deliveryInfo.length; i++) {

@@ -1,11 +1,16 @@
 package com.swistak.webapi.command;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.math.BigInteger;
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 import javax.xml.rpc.holders.BigIntegerHolder;
 
+import com.swistak.webapi.My_auction;
 import com.swistak.webapi.SwistakLocator;
 import com.swistak.webapi.SwistakPortType;
 import com.swistak.webapi.holders.My_auctionsHolder;
@@ -19,10 +24,10 @@ public class GetMyAuctionsCommand implements Runnable {
 	private String hash;
 	private long userId = 0;
 	private BigInteger offset = BigInteger.ONE;
-	private BigInteger limit = BigInteger.valueOf(1000);
+	private BigInteger limit = BigInteger.valueOf(25);
 
-	BigIntegerHolder total_auctions= new BigIntegerHolder();
-	public My_auctionsHolder my_auctions = new My_auctionsHolder();
+	private BigIntegerHolder total_auctions = new BigIntegerHolder();
+	private My_auctionsHolder my_auctions = new My_auctionsHolder();
 
 	public GetMyAuctionsCommand(String hash) {
 		this.hash = hash;
@@ -44,6 +49,20 @@ public class GetMyAuctionsCommand implements Runnable {
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public GetMyAuctionsCommand limit(long limit) {
+		checkArgument(limit < 1000, "Limit must be below {0}", 1000);
+		this.limit = BigInteger.valueOf(limit);
+		return this;
+	}
+	
+	public int getTotalAuctions() {
+		return total_auctions.value.intValue();
+	}
+	
+	public List<My_auction> getMyAuctions() {
+		return Arrays.asList(my_auctions.value);
 	}
 
 }

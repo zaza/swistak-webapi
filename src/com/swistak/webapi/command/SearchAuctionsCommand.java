@@ -15,9 +15,9 @@ import com.swistak.webapi.model.Province;
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=search_auctions
  */
-public class SearchCommand implements Runnable {
+public class SearchAuctionsCommand implements Runnable {
 
-	final private String fraza;
+	private final String fraza;
 	private String fraza_pomin = "";
 	private float cena_od = 0;
 	private float cena_do = 0;
@@ -40,12 +40,12 @@ public class SearchCommand implements Runnable {
 	SwistakMessageHolder _return;
 	SwistakMessageHolder err;
 
-	private SearchCommand(String fraza) {
+	private SearchAuctionsCommand(String fraza) {
 		this.fraza = fraza;
 	}
 
-	public static SearchCommand fraza(String fraza) {
-		return new SearchCommand(fraza);
+	public static SearchAuctionsCommand fraza(String fraza) {
+		return new SearchAuctionsCommand(fraza);
 	}
 
 	@Override
@@ -70,32 +70,32 @@ public class SearchCommand implements Runnable {
 		}
 	}
 
-	public SearchCommand fraza_pomin(String fraza_pomin) {
+	public SearchAuctionsCommand fraza_pomin(String fraza_pomin) {
 		this.fraza_pomin = fraza_pomin;
 		return this;
 	}
 
-	public SearchCommand cena_od(float cena_od) {
+	public SearchAuctionsCommand cena_od(float cena_od) {
 		this.cena_od = cena_od;
 		return this;
 	}
 
-	public SearchCommand cena_do(float cena_do) {
+	public SearchAuctionsCommand cena_do(float cena_do) {
 		this.cena_do = cena_do;
 		return this;
 	}
 
-	public SearchCommand miejscowosc(String miejscowosc) {
+	public SearchAuctionsCommand miejscowosc(String miejscowosc) {
 		this.miejscowosc = miejscowosc;
 		return this;
 	}
 
-	public SearchCommand wojewodztwo(Province wojewodztwo) {
+	public SearchAuctionsCommand wojewodztwo(Province wojewodztwo) {
 		this.wojewodztwo = wojewodztwo.toBigInteger();
 		return this;
 	}
 
-	public SearchCommand login(String login) {
+	public SearchAuctionsCommand login(String login) {
 		this.login = login;
 		return this;
 	}

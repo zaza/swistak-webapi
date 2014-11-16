@@ -3,14 +3,12 @@ package com.swistak.webapi;
 import java.util.Collection;
 import java.util.Set;
 
-import org.apache.commons.collections.MultiMap;
-import org.apache.commons.collections.map.MultiValueMap;
-
-import com.swistak.webapi.Search_auction;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.swistak.webapi.category.Category;
 import com.swistak.webapi.category.CategoryIdMatcher;
 import com.swistak.webapi.category.Tree;
-import com.swistak.webapi.command.SearchCommand;
+import com.swistak.webapi.command.SearchAuctionsCommand;
 
 public class CategoryGuesser {
 
@@ -27,22 +25,21 @@ public class CategoryGuesser {
 	public Category guess(String title) {
 		
 		String tmpTitle = title;
-		SearchCommand search;
 		int lastSpaceIndex = tmpTitle.lastIndexOf(' ');
-		search = SearchCommand.fraza(tmpTitle);
+		SearchAuctionsCommand search = SearchAuctionsCommand.fraza(tmpTitle);
 		search.run();
 		
 		while (lastSpaceIndex != -1 && search.total_found.value == null){
 			tmpTitle = tmpTitle.substring(0, lastSpaceIndex);
 			lastSpaceIndex = tmpTitle.lastIndexOf(' ');
-			search = SearchCommand.fraza(tmpTitle);
+			search = SearchAuctionsCommand.fraza(tmpTitle);
 			search.run();
 		}
 		
 		if (search.search_auctions.value == null)
 			return Category.UNKNOWN;
 		
-		MultiMap auctionsByCategory = groupByCategory(search.search_auctions.value);
+		Multimap<Long, Search_auction> auctionsByCategory = groupByCategory(search.search_auctions.value);
 		long categoryId = findCategoryWithLargestCollection(auctionsByCategory);
 		if (categoryId == 0)
 			return Category.UNKNOWN;
@@ -50,22 +47,21 @@ public class CategoryGuesser {
 	}
 
 
-	private MultiMap groupByCategory(Search_auction[] auctions) {
-		MultiMap result = new MultiValueMap();
+	private Multimap<Long, Search_auction> groupByCategory(Search_auction[] auctions) {
+		Multimap<Long, Search_auction> result = ArrayListMultimap.create();
 		for (Search_auction auction :auctions) {
 			result.put(auction.getKat_id(), auction);
 		}
 		return result;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private long findCategoryWithLargestCollection(MultiMap auctionsByCategory) {
+	private long findCategoryWithLargestCollection(Multimap<Long, Search_auction> auctionsByCategory) {
 		long result = 0;
 		int largest = 0;
 		Set<Long> keySet = auctionsByCategory.keySet();
 		for (Object key : keySet) {
 			Long category = (Long) key;
-			Collection<Search_auction> col = (Collection<Search_auction>) auctionsByCategory.get(key);
+			Collection<Search_auction> col = auctionsByCategory.get(category);
 			if (col.size() > largest) {
 				result = category;
 				largest = col.size();

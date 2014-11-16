@@ -23,8 +23,8 @@ public class GetHashCommand implements Runnable {
 	private final String login;
 	private final String pass;
 
-	String hash;
-	GetHashStatus status;
+	private String hash;
+	private GetHashStatus status;
 
 	public GetHashCommand(String login, String pass) {
 		this.login = login;
@@ -70,6 +70,10 @@ public class GetHashCommand implements Runnable {
 	
 	public String getHash() {
 		return hash;
+	}
+	
+	public GetHashStatus getStatus() {
+		return status;
 	}
 
 }

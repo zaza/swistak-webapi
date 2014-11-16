@@ -6,14 +6,14 @@ import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
 
-import com.swistak.webapi.command.SearchCommand;
+import com.swistak.webapi.command.SearchAuctionsCommand;
 import com.swistak.webapi.model.Province;
 
 public class Main {
 	public static void main(String[] args) throws ServiceException,
 			RemoteException {
 
-		SearchCommand search = SearchCommand.fraza("nokia").fraza_pomin("3310").cena_od(10).cena_do(20).miejscowosc("Warszawa").wojewodztwo(Province.Mazowieckie);
+		SearchAuctionsCommand search = SearchAuctionsCommand.fraza("nokia").fraza_pomin("3310").cena_od(10).cena_do(20).miejscowosc("Warszawa").wojewodztwo(Province.Mazowieckie);
 		search.run();
 		
 		if (search.total_found.value == null) {

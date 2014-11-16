@@ -28,6 +28,15 @@ public class AddAuctionCommandTest extends AbstractSwistakTest {
 		thrown.expectMessage("Non nillable element 'title' is null");
 		add.run();
 	}
+	
+	@Test
+	public void add_with_invalid_hash() {
+		AddAuctionCommand add = new AddAuctionCommand("invalid-hash", getTestAuctionParams());
+		add.run();
+
+		assertEquals(AddAuctionStatus.ERR_AUTHORIZATION, add.getStatus());
+		assertEquals(new Ids(0,0), add.getIds());
+	}
 
 	@Test
 	public void add_get_and_end() {
@@ -36,11 +45,11 @@ public class AddAuctionCommandTest extends AbstractSwistakTest {
 		add.run();
 
 		assertEquals(AddAuctionStatus.OK, add.getStatus());
-		assertTrue(add.id.value > 0);
-		assertEquals(0, add.id_out.value);
+		assertTrue(add.getIds().getId() > 0);
+		assertEquals(0, add.getIds().getId_out());
 
 		// get
-		GetAuctionsCommand get = new GetAuctionsCommand(getHash()).auctions(add.id.value);
+		GetAuctionsCommand get = new GetAuctionsCommand(getHash()).auctions(add.getIds().getId());
 		get.run();
 
 		assertEquals(GetAuctionsStatus.OK, get.getStatus());
@@ -48,12 +57,11 @@ public class AddAuctionCommandTest extends AbstractSwistakTest {
 		assertEquals(getTestAuctionParams().getTitle(), get.getAuctionArray()[0].getTitle());
 
 		// end
-		Ids ids = new Ids(add.id.value, add.id_out.value);
-		EndAuctionsCommand end = new EndAuctionsCommand(getHash(), new Ids[] {ids});
+		EndAuctionsCommand end = new EndAuctionsCommand(getHash(), new Ids[] {add.getIds()});
 		end.run();
 
 		assertEquals(EndAuctionsStatus.OK, end.getStatus());
 		assertEquals(1, end.getEndAuctions().size());
-		assertEquals(ids, end.getEndAuctions().get(0));
+		assertEquals(add.getIds(), end.getEndAuctions().get(0));
 	}
 }

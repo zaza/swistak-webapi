@@ -17,7 +17,7 @@ import com.swistak.webapi.category.CategoryTreeBuilder;
 import com.swistak.webapi.category.Tree;
 import com.swistak.webapi.category.Tree.TreeNode;
 import com.swistak.webapi.command.GetMyAuctionsCommand;
-import com.swistak.webapi.command.SearchCommand;
+import com.swistak.webapi.command.SearchAuctionsCommand;
 
 public class CategoryGuesserTest extends AbstractSwistakTest {
 
@@ -31,7 +31,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 
 	@Test
 	public void guess_category_for_auctions_by_login() {
-		SearchCommand search = SearchCommand.fraza("").login(getLogin());
+		SearchAuctionsCommand search = SearchAuctionsCommand.fraza("").login(getLogin());
 		search.run();
 
 		for (Search_auction my_auction : search.search_auctions.value) {
@@ -46,10 +46,10 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 	public void guess_category_for_my_auctions() {
 		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash());
 		myAuctions.run();
-		My_auction[] auctions = myAuctions.my_auctions.value;
+		List<My_auction> auctions = myAuctions.getMyAuctions();
 
 		// TODO: founds first 25
-		System.out.println(format("Found %d", auctions.length));
+		System.out.println(format("Found %d", auctions.size()));
 		for (My_auction my_auction : auctions) {
 			int catSwistakId = my_auction.getCategory_id().intValue();
 			String catSwistakPath = getCategoryFullPath(catSwistakId);

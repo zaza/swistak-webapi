@@ -21,9 +21,9 @@ import com.swistak.webapi.model.EndAuctionsStatus;
  */
 public class EndAuctionsCommand implements Runnable {
 
-	private String hash;
-	public BigInteger[] id;
-	public BigInteger[] id_out;
+	private final String hash;
+	private final BigInteger[] id;
+	private final BigInteger[] id_out;
 
 	private List<Ids> end_auctions = new ArrayList<Ids>();
 	private EndAuctionsStatus status;

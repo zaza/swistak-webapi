@@ -12,10 +12,16 @@ import com.swistak.webapi.model.Province;
 
 public abstract class AbstractSwistakTest {
 
+	private String hash;
+	
 	protected String getHash() {
-		GetHashCommand getHash = new GetHashCommand(getLogin(), getPassword());
-		getHash.run();
-		return getHash.getHash();
+		if (hash == null) {
+			GetHashCommand getHash = new GetHashCommand(getLogin(),
+					getPassword());
+			getHash.run();
+			hash = getHash.getHash();
+		}
+		return hash;
 	}
 
 	protected String getLogin() {

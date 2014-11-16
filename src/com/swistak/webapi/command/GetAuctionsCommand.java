@@ -1,6 +1,6 @@
 package com.swistak.webapi.command;
 
-import static java.text.MessageFormat.format;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
@@ -30,7 +30,8 @@ public class GetAuctionsCommand implements Runnable {
 	}
 
 	public GetAuctionsCommand auctions(long... auctionIds) {
-		this.auctionIds = checkMaxLength(auctionIds, 100);
+		checkArgument(auctionIds.length < 100, "Maximum number of auctions to retrieve is {0}, got {1}", 100, auctionIds.length);
+		this.auctionIds = auctionIds;
 		return this;
 	}
 
@@ -62,12 +63,6 @@ public class GetAuctionsCommand implements Runnable {
 			result[i] = BigInteger.valueOf(ids[i]);
 		}
 		return result;
-	}
-
-	private static long[] checkMaxLength(long[] array, int length) {
-		if (array.length > length)
-			throw new IllegalArgumentException(format("'{0}' is too long. Maximum length for the array is {1}.", array, length));
-		return array;
 	}
 
 	public GetAuctionsStatus getStatus() {
