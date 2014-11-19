@@ -1,7 +1,6 @@
 package com.swistak.webapi.command;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,8 +10,6 @@ import com.swistak.webapi.AbstractSwistakTest;
 import com.swistak.webapi.Auction_params;
 import com.swistak.webapi.Ids;
 import com.swistak.webapi.model.AddAuctionStatus;
-import com.swistak.webapi.model.EndAuctionsStatus;
-import com.swistak.webapi.model.GetAuctionsStatus;
 
 public class AddAuctionCommandTest extends AbstractSwistakTest {
 
@@ -41,27 +38,10 @@ public class AddAuctionCommandTest extends AbstractSwistakTest {
 	@Test
 	public void add_get_and_end() {
 		// add
-		AddAuctionCommand add = new AddAuctionCommand(getHash(), getTestAuctionParams());
-		add.run();
-
-		assertEquals(AddAuctionStatus.OK, add.getStatus());
-		assertTrue(add.getIds().getId() > 0);
-		assertEquals(0, add.getIds().getId_out());
-
+		Ids ids = addAuction();
 		// get
-		GetAuctionsCommand get = new GetAuctionsCommand(getHash()).auctions(add.getIds().getId());
-		get.run();
-
-		assertEquals(GetAuctionsStatus.OK, get.getStatus());
-		assertEquals(1, get.getAuctionArray().length);
-		assertEquals(getTestAuctionParams().getTitle(), get.getAuctionArray()[0].getTitle());
-
+		getAuctionAndAssertTitle(ids.getId(), getTestAuctionParams().getTitle());
 		// end
-		EndAuctionsCommand end = new EndAuctionsCommand(getHash(), new Ids[] {add.getIds()});
-		end.run();
-
-		assertEquals(EndAuctionsStatus.OK, end.getStatus());
-		assertEquals(1, end.getEndAuctions().size());
-		assertEquals(add.getIds(), end.getEndAuctions().get(0));
+		endAuction(ids);
 	}
 }
