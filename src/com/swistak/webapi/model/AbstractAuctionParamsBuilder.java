@@ -6,7 +6,7 @@ import com.swistak.webapi.Auction_costs_delivery;
 import com.swistak.webapi.Auction_parameter;
 import com.swistak.webapi.Cost_delivery;
 
-public abstract class AbstractAuctionParamsBuilder<T> {
+public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements AuctionParams */{
 
 	protected String title;
 	protected float price = -1;
