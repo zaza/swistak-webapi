@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import com.swistak.webapi.AbstractSwistakTest;
 import com.swistak.webapi.Ids;
-import com.swistak.webapi.model.UpdateAuctionParamsBuilder;
+import com.swistak.webapi.builder.UpdateAuctionParamsBuilder;
 
 public class UpdateAuctionCommandTest extends AbstractSwistakTest {
 

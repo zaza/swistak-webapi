@@ -3,17 +3,19 @@ package com.swistak.webapi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import com.swistak.webapi.builder.AbstractAuctionParamsBuilder;
+import com.swistak.webapi.builder.AddAuctionParamsBuilder;
+import com.swistak.webapi.builder.AuctionFotosBuilder;
 import com.swistak.webapi.command.AddAuctionCommand;
 import com.swistak.webapi.command.EndAuctionsCommand;
 import com.swistak.webapi.command.GetAuctionsCommand;
 import com.swistak.webapi.command.GetHashCommand;
-import com.swistak.webapi.model.AbstractAuctionParamsBuilder;
-import com.swistak.webapi.model.AddAuctionParamsBuilder;
 import com.swistak.webapi.model.AddAuctionStatus;
 import com.swistak.webapi.model.ConditionProduct;
 import com.swistak.webapi.model.EndAuctionsStatus;
@@ -50,7 +52,8 @@ public abstract class AbstractSwistakTest {
 		.condition(ConditionProduct.uzywany) //
 		.description("Aukcja testowa wystawiona przez WebAPI.<br />Aukcja testowa wystawiona przez WebAPI.<br />Aukcja testowa wystawiona przez WebAPI.<br />") //
 		.count(1) //
-		.province(Province.Mazowieckie);
+		.province(Province.Mazowieckie)
+		.fotos(new AuctionFotosBuilder().foto(new File("data-tst/auctions-root/auction/logo.jpg")).build());
 		return builder.build();
 	}
 	

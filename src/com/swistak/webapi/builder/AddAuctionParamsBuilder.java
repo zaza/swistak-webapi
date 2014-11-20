@@ -1,9 +1,13 @@
-package com.swistak.webapi.model;
+package com.swistak.webapi.builder;
 
 import java.math.BigInteger;
 
 import com.swistak.webapi.Auction_foto;
 import com.swistak.webapi.Auction_params;
+import com.swistak.webapi.model.AuctionType;
+import com.swistak.webapi.model.AuctionUnit;
+import com.swistak.webapi.model.DeliveryInfo;
+import com.swistak.webapi.model.WhoPayment;
 
 public class AddAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Auction_params> {
 
@@ -13,6 +17,7 @@ public class AddAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Auctio
 		
 		this.type = AuctionType.kup_teraz;
 		this.deliveryInfo = new DeliveryInfo[]{DeliveryInfo.odbiór_osobisty};
+		this.fotos = new Auction_foto[0];
 		this.count = 1;
 		this.unit = AuctionUnit.sztuki;
 		this.whoPayment = WhoPayment.kupujący;
@@ -42,7 +47,7 @@ public class AddAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Auctio
 		params.setCosts_delivery(costs_delivery);
 		params.setDelivery_info(createDeliveryInfoBuilder().build());
 		params.setDescription(description);
-		params.setFotos(new Auction_foto[0]); // TODO
+		params.setFotos(fotos);
 		//params.setId_out(id_out); // TODO
 		params.setItem_count(BigInteger.valueOf(count));
 		params.setParameters(paramaters);

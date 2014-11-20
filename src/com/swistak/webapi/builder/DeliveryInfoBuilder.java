@@ -1,8 +1,10 @@
-package com.swistak.webapi.model;
+package com.swistak.webapi.builder;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.math.BigInteger;
+
+import com.swistak.webapi.model.DeliveryInfo;
 
 public class DeliveryInfoBuilder {
 

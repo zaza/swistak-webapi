@@ -24,7 +24,7 @@ public enum DeliveryInfo {
 		this.id = id;
 	}
 
-	int getId() {
+	public int getId() {
 		return id;
 	}
 }

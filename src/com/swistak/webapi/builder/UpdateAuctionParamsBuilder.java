@@ -1,4 +1,4 @@
-package com.swistak.webapi.model;
+package com.swistak.webapi.builder;
 
 import java.math.BigInteger;
 
@@ -41,6 +41,8 @@ public class UpdateAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Upd
 		if (deliveryInfo != null)
 			params.setDelivery_info(createDeliveryInfoBuilder().build());
 		params.setDescription(description);
+		if (fotos != null)
+			params.setFotos(fotos);
 		params.setFotos(new Auction_foto[0]);
 		if (count != -1)
 			params.setItem_count(BigInteger.valueOf(count));

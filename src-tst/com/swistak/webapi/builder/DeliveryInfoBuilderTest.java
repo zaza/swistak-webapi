@@ -1,10 +1,13 @@
-package com.swistak.webapi.model;
+package com.swistak.webapi.builder;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import com.swistak.webapi.builder.DeliveryInfoBuilder;
+import com.swistak.webapi.model.DeliveryInfo;
 
 public class DeliveryInfoBuilderTest {
 

@@ -1,10 +1,17 @@
-package com.swistak.webapi.model;
+package com.swistak.webapi.builder;
 
 import static java.text.MessageFormat.format;
 
 import com.swistak.webapi.Auction_costs_delivery;
+import com.swistak.webapi.Auction_foto;
 import com.swistak.webapi.Auction_parameter;
 import com.swistak.webapi.Cost_delivery;
+import com.swistak.webapi.model.AuctionType;
+import com.swistak.webapi.model.AuctionUnit;
+import com.swistak.webapi.model.ConditionProduct;
+import com.swistak.webapi.model.DeliveryInfo;
+import com.swistak.webapi.model.Province;
+import com.swistak.webapi.model.WhoPayment;
 
 public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements AuctionParams */{
 
@@ -16,6 +23,7 @@ public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements Auctio
 	protected ConditionProduct condition;
 	protected DeliveryInfo[] deliveryInfo;
 	protected String description;
+	protected Auction_foto[] fotos;
 	protected int count = -1;
 	protected Auction_parameter[] paramaters = new Auction_parameter[0];
 	protected Auction_costs_delivery costs_delivery = noCostsDelivery();
@@ -51,6 +59,11 @@ public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements Auctio
 
 	public AbstractAuctionParamsBuilder<T> description(String description) {
 		this.description = description;
+		return this;
+	}
+	
+	public AbstractAuctionParamsBuilder<T> fotos(Auction_foto[] fotos) {
+		this.fotos = fotos;
 		return this;
 	}
 
