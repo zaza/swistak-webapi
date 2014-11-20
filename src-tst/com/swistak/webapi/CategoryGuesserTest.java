@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -20,6 +21,8 @@ import com.swistak.webapi.command.GetMyAuctionsCommand;
 import com.swistak.webapi.command.SearchAuctionsCommand;
 
 public class CategoryGuesserTest extends AbstractSwistakTest {
+
+	private static final Logger LOG = Logger.getLogger(CategoryGuesserTest.class);
 
 	private Tree<Category> tree;
 
@@ -49,7 +52,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 		List<My_auction> auctions = myAuctions.getMyAuctions();
 
 		// TODO: founds first 25
-		System.out.println(format("Found %d", auctions.size()));
+		LOG.debug(format("Found %d", auctions.size()));
 		for (My_auction my_auction : auctions) {
 			int catSwistakId = my_auction.getCategory_id().intValue();
 			String catSwistakPath = getCategoryFullPath(catSwistakId);
@@ -58,7 +61,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 			String catGuessPath = getCategoryFullPath(catGuess.getId());
 			// TODO: replace with assert
 			if (catSwistakId != catGuess.getId()) {
-			System.out.println(format("%s: %d (%s) ?=? %d (%s)",
+				LOG.debug(format("%s: %d (%s) ?=? %d (%s)",
 					my_auction.getTitle(), catSwistakId, catSwistakPath,
 					catGuess.getId(), catGuessPath));
 			}

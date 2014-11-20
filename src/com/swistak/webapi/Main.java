@@ -6,10 +6,15 @@ import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.log4j.Logger;
+
 import com.swistak.webapi.command.SearchAuctionsCommand;
 import com.swistak.webapi.model.Province;
 
 public class Main {
+
+	private static final Logger LOG = Logger.getLogger(Main.class);
+
 	public static void main(String[] args) throws ServiceException,
 			RemoteException {
 
@@ -17,11 +22,11 @@ public class Main {
 		search.run();
 		
 		if (search.total_found.value == null) {
-			System.err.println(format("Nothing found."));
+			LOG.error("Nothing found.");
 		} else {
-			System.out.println(format("Found %d items", search.total_found.value.intValue()));
+			LOG.info(format("Found %d items", search.total_found.value.intValue()));
 			for (Search_auction auction : search.search_auctions.value) {
-				System.out.println(format("* %s", auction.getTitle()));
+				LOG.info(format(format("* %s", auction.getTitle())));
 			}
 		}
 	}
