@@ -37,6 +37,7 @@ public class CategoryTreeBuilder {
 			NodeList nList = doc.getElementsByTagName("kategoria");
 
 			Tree<Category> tree = new Tree<Category>(new Category(0,
+					// TODO
 					"2014-05-13 12:31:28"));
 
 			traverse(nList, 0, tree);

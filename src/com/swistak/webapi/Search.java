@@ -11,22 +11,21 @@ import org.apache.log4j.Logger;
 import com.swistak.webapi.command.SearchAuctionsCommand;
 import com.swistak.webapi.model.Province;
 
-public class Main {
+public class Search {
 
-	private static final Logger LOG = Logger.getLogger(Main.class);
+	private static final Logger LOG = Logger.getLogger(Search.class);
 
-	public static void main(String[] args) throws ServiceException,
-			RemoteException {
+	public static void main(String[] args) throws ServiceException,	RemoteException {
 
 		SearchAuctionsCommand search = SearchAuctionsCommand.fraza("nokia").fraza_pomin("3310").cena_od(10).cena_do(20).miejscowosc("Warszawa").wojewodztwo(Province.Mazowieckie);
 		search.run();
 		
 		if (search.total_found.value == null) {
-			LOG.error("Nothing found.");
+			LOG.error("Nie znaleziono aukcji spełniających zadane kryteria.");
 		} else {
-			LOG.info(format("Found %d items", search.total_found.value.intValue()));
+			LOG.info(format("Znaleziono %d aukcji:", search.total_found.value.intValue()));
 			for (Search_auction auction : search.search_auctions.value) {
-				LOG.info(format(format("* %s", auction.getTitle())));
+				LOG.info(format(format("* '%s' %s", auction.getTitle(), auction.getUrl())));
 			}
 		}
 	}

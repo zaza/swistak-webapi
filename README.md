@@ -1,7 +1,10 @@
 swistak-webapi
 ==============
 
-[ŚwistakAPI](http://www.swistak.pl/usluga.php?id=502) for Java
+Klient [ŚwistakAPI](http://www.swistak.pl/usluga.php?id=502), czy jak kto woli Świstak WebAPI, dla języka Java.
 
-Run `mvn test` or `com.swistak.webapi.Main` for an example usage.
-
+Przykłady użycia:
+* `com.swistak.webapi.Search` -- wyszukiwanie wg zadanych kryteriów
+* `com.swistak.webapi.CategoryGuesser` -- zgaduje kategorię na podstawie tytułu
+* `com.swistak.webapi.scanner.Scanner` -- automatycznie wystawia aukcje ze wskazanego folderu
+* więcej w testach -- `mvn test`
