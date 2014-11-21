@@ -2,3 +2,4 @@ src-gen
 bin
 target
 data-tst/credentials.properties
+data-tst/kategorie_pretty.xml

@@ -28,7 +28,7 @@ public class AuctionFotosBuilderTest {
 
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Only JPG images are accepted.");
-		builder.foto(new File("data-tst/auctions-root/auction/logo_245x58.gif"));
+		builder.foto(new File("data-tst/logo_245x58.gif"));
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class AuctionFotosBuilderTest {
 
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Images must be at least 160x160.");
-		builder.foto(new File("data-tst/auctions-root/auction/logo_245x58.jpg"));
+		builder.foto(new File("data-tst/logo_245x58.jpg"));
 	}
 	
 	@Test
