@@ -1,6 +1,7 @@
 package com.swistak.webapi.command;
 
 import java.rmi.RemoteException;
+import java.util.concurrent.Callable;
 
 import javax.xml.rpc.ServiceException;
 import javax.xml.rpc.holders.LongHolder;
@@ -18,7 +19,7 @@ import com.swistak.webapi.model.AddAuctionStatus;
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=add_auction
  */
-public class AddAuctionCommand implements Runnable {
+public class AddAuctionCommand implements Callable<Ids> {
 
 	private final String hash;
 	private final Auction_params params;
@@ -33,12 +34,13 @@ public class AddAuctionCommand implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public Ids call() {
 		SwistakLocator service = new SwistakLocator();
 		try {
 			SwistakPortType port = service.getSwistakPort();
 			port.add_auction(hash, params, id, id_out);
 			status = AddAuctionStatus.OK;
+			return getIds();
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		} catch (AxisFault e) {
@@ -46,7 +48,7 @@ public class AddAuctionCommand implements Runnable {
 			Optional<AddAuctionStatus> optional = Enums.getIfPresent(AddAuctionStatus.class, faultCode);
 			if (optional.isPresent()) {
 				status = optional.get();
-				return;
+				return getIds();
 			}
 			throw new RuntimeException(e);
 		} catch (RemoteException e) {

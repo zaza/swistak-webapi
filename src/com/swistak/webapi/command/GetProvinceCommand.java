@@ -1,9 +1,9 @@
 package com.swistak.webapi.command;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.xml.rpc.ServiceException;
 
@@ -15,16 +15,14 @@ import com.swistak.webapi.SwistakPortType;
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=get_province
  *
  */
-public class GetProvinceCommand implements Runnable {
-
-	private List<Province> province = new ArrayList<Province>();
+public class GetProvinceCommand implements Callable<List<Province>> {
 
 	@Override
-	public void run() {
+	public List<Province> call() {
 		SwistakLocator service = new SwistakLocator();
 		try {
 			SwistakPortType port = service.getSwistakPort();
-			province = Arrays.asList(port.get_province());
+			return Arrays.asList(port.get_province());
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		} catch (RemoteException e) {
@@ -32,7 +30,4 @@ public class GetProvinceCommand implements Runnable {
 		}
 	}
 
-	public List<Province> getProvince() {
-		return province;
-	}
 }

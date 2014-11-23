@@ -1,21 +1,28 @@
 package com.swistak.webapi.command;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.google.common.io.BaseEncoding;
-import com.google.common.io.Files;
 import com.swistak.webapi.AbstractSwistakTest;
+import com.swistak.webapi.Auction_foto;
 import com.swistak.webapi.Auction_params;
 import com.swistak.webapi.Ids;
+import com.swistak.webapi.My_auction;
 import com.swistak.webapi.model.AddAuctionStatus;
-import com.swistak.webapi.model.GetAuctionsStatus;
 
 public class AddAuctionCommandTest extends AbstractSwistakTest {
 
@@ -29,13 +36,13 @@ public class AddAuctionCommandTest extends AbstractSwistakTest {
 
 		thrown.expect(RuntimeException.class);
 		thrown.expectMessage("Non nillable element 'title' is null");
-		add.run();
+		add.call();
 	}
 	
 	@Test
 	public void add_with_invalid_hash() {
 		AddAuctionCommand add = new AddAuctionCommand("invalid-hash", getTestAuctionParams());
-		add.run();
+		add.call();
 
 		assertEquals(AddAuctionStatus.ERR_AUTHORIZATION, add.getStatus());
 		assertEquals(new Ids(0,0), add.getIds());
@@ -45,29 +52,58 @@ public class AddAuctionCommandTest extends AbstractSwistakTest {
 	public void add_get_and_end() throws IOException {
 		// add
 		Ids ids = addAuction();
-
+		try {
 		// get
-		GetAuctionsCommand get = new GetAuctionsCommand(getHash()).auctions(ids.getId());
-		get.run();
-
-		assertEquals(GetAuctionsStatus.OK, get.getStatus());
-		assertEquals(1, get.getAuctionArray().length);
-		assertEquals(getTestAuctionParams().getTitle(), get.getAuctionArray()[0].getTitle());
 		// TODO: http://www.swistak.pl/forum/29,SwistakAPI/203,brak_zdjec_w_odpowiedzi_na_get_auctions
-		assertEquals(1, get.getAuctionArray()[0].getFotos().length);
-		assertEquals("", get.getAuctionArray()[0].getFotos()[0].getUrl());
-		assertEquals(readBytes(new File("data-tst/auctions-root/auction/logo.jpg")), decode(get.getAuctionArray()[0].getFotos()[0].getSrc()));
+//		GetAuctionsCommand get = new GetAuctionsCommand(getHash()).auctions(ids.getId());
+//		get.run();
+		My_auction auction = getMyAuctionWithId(ids.getId());
+		assertNotNull(auction);
 
-		// end
-		endAuction(ids);
+//		assertEquals(GetAuctionsStatus.OK, get.getStatus());
+//		assertEquals(1, get.getAuctionArray().length);
+		assertEquals(getTestAuctionParams().getTitle(), auction.getTitle());
+		assertEquals(1, auction.getFotos().length);
+		Auction_foto foto = auction.getFotos()[0];
+		assertTrue(foto.getSrc().isEmpty());
+		assertFalse(foto.getUrl().isEmpty());
+		assertImagesAlmostIdentical(new File("data-tst/auctions-root/auction/logo.jpg"), new URL(foto.getUrl()));
+
+		} finally {
+			// end
+			endAuction(ids);
+		}
 	}
 
-	private static byte[] decode(String string) {
-		return BaseEncoding.base64().decode(string);
+	private static void assertImagesAlmostIdentical(File expected, URL actual) throws IOException {
+		BufferedImage img1 = ImageIO.read(expected);
+		BufferedImage img2 = ImageIO.read(actual);
+		ImgDiffPercent diff = new ImgDiffPercent(img1, img2);
+		assertTrue(diff.run() < 1);
+	}
+
+	private My_auction getMyAuctionWithId(long id) {
+		GetMyAuctionsCommand getMyAuctions = new GetMyAuctionsCommand(getHash());
+		getMyAuctions.call();
+		
+		List<My_auction> myAuctions = getMyAuctions.getMyAuctions();
+		My_auction found = findWithId(myAuctions, id);
+		if (found == null) {
+			while(!getMyAuctions.getMyAuctions().isEmpty() && found == null) {
+				getMyAuctions.incrementOffset();
+				getMyAuctions.call();
+				myAuctions = getMyAuctions.getMyAuctions();
+				found = findWithId(myAuctions, id);
+			}
+		}
+		return found;
 	}
 	
-	
-	private static byte[] readBytes(File file) throws IOException {
-		return Files.asByteSource(file).read();
+	private static My_auction findWithId(List<My_auction> myAuctions, long id) {
+		for (My_auction my_auction : myAuctions) {
+			if (my_auction.getId() == id)
+				return my_auction;
+		}
+		return null;
 	}
 }

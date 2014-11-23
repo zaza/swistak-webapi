@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import com.swistak.webapi.AbstractSwistakTest;
-import com.swistak.webapi.command.GetHashCommand;
 import com.swistak.webapi.model.GetHashStatus;
 
 public class GetHashCommandTest extends AbstractSwistakTest {
@@ -29,7 +28,7 @@ public class GetHashCommandTest extends AbstractSwistakTest {
 	@Test
 	public void bad_password() {
 		GetHashCommand getHash = new GetHashCommand("bad-user", "bad-password");
-		getHash.run();
+		getHash.call();
 
 		assertEquals(GetHashStatus.ERR_USER_PASSWD, getHash.getStatus());
 		assertNull(getHash.getHash());
@@ -39,7 +38,7 @@ public class GetHashCommandTest extends AbstractSwistakTest {
 	public void user_blocked_for_an_hour() {
 		GetHashCommand getHash = new GetHashCommand("user-to-be-blocked", "bad-password");
 		for (int i = 0; i < 4; i++) {
-			getHash.run();
+			getHash.call();
 		}
 
 		assertEquals(GetHashStatus.ERR_USER_BLOCKED_ONE_HOUR, getHash.getStatus());
@@ -49,7 +48,7 @@ public class GetHashCommandTest extends AbstractSwistakTest {
 	@Test
 	public void valid_credentials() {
 		GetHashCommand getHash = new GetHashCommand(getLogin(), getPassword());
-		getHash.run();
+		getHash.call();
 
 		assertEquals(GetHashStatus.OK, getHash.getStatus());
 		assertNotNull(getHash.getHash());

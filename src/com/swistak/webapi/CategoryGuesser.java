@@ -1,6 +1,7 @@
 package com.swistak.webapi;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -27,19 +28,19 @@ public class CategoryGuesser {
 		String tmpTitle = title;
 		int lastSpaceIndex = tmpTitle.lastIndexOf(' ');
 		SearchAuctionsCommand search = SearchAuctionsCommand.fraza(tmpTitle);
-		search.run();
+		search.call();
 		
-		while (lastSpaceIndex != -1 && search.total_found.value == null){
+		while (lastSpaceIndex != -1 && search.getTotalAuctions() == 0){
 			tmpTitle = tmpTitle.substring(0, lastSpaceIndex);
 			lastSpaceIndex = tmpTitle.lastIndexOf(' ');
 			search = SearchAuctionsCommand.fraza(tmpTitle);
-			search.run();
+			search.call();
 		}
 		
-		if (search.search_auctions.value == null)
+		if (search.getSearchAuctions().isEmpty())
 			return Category.UNKNOWN;
 		
-		Multimap<Long, Search_auction> auctionsByCategory = groupByCategory(search.search_auctions.value);
+		Multimap<Long, Search_auction> auctionsByCategory = groupByCategory(search.getSearchAuctions());
 		long categoryId = findCategoryWithLargestCollection(auctionsByCategory);
 		if (categoryId == 0)
 			return Category.UNKNOWN;
@@ -47,7 +48,7 @@ public class CategoryGuesser {
 	}
 
 
-	private Multimap<Long, Search_auction> groupByCategory(Search_auction[] auctions) {
+	private Multimap<Long, Search_auction> groupByCategory(List<Search_auction> auctions) {
 		Multimap<Long, Search_auction> result = ArrayListMultimap.create();
 		for (Search_auction auction :auctions) {
 			result.put(auction.getKat_id(), auction);

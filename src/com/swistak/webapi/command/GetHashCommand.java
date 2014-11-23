@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Callable;
 
 import javax.xml.rpc.ServiceException;
 
@@ -18,7 +19,7 @@ import com.swistak.webapi.model.GetHashStatus;
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=get_hash
  */
-public class GetHashCommand implements Runnable {
+public class GetHashCommand implements Callable<String> {
 
 	private final String login;
 	private final String pass;
@@ -51,18 +52,19 @@ public class GetHashCommand implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public String call() {
 		SwistakLocator service = new SwistakLocator();
 		try {
 			SwistakPortType port = service.getSwistakPort();
 			hash = port.get_hash(login, pass);
 			status = GetHashStatus.OK;
+			return getHash();
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		} catch (AxisFault e) {
 			String faultCode = e.getFaultCode().getLocalPart();
 			status = GetHashStatus.valueOf(faultCode);
-			return;
+			return getHash();
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}

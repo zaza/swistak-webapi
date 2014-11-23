@@ -2,10 +2,15 @@ package com.swistak.webapi.command;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.xml.rpc.ServiceException;
 import javax.xml.rpc.holders.BigIntegerHolder;
 
+import com.swistak.webapi.Search_auction;
 import com.swistak.webapi.SwistakLocator;
 import com.swistak.webapi.SwistakPortType;
 import com.swistak.webapi.holders.Search_auctionsHolder;
@@ -15,7 +20,7 @@ import com.swistak.webapi.model.Province;
 /**
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=search_auctions
  */
-public class SearchAuctionsCommand implements Runnable {
+public class SearchAuctionsCommand implements Callable<List<Search_auction>> {
 
 	private final String fraza;
 	private String fraza_pomin = "";
@@ -35,8 +40,8 @@ public class SearchAuctionsCommand implements Runnable {
 	private BigInteger stan_towaru = BigInteger.ZERO;
 	private BigInteger limit = BigInteger.valueOf(100);
 
-	public BigIntegerHolder total_found;
-	public Search_auctionsHolder search_auctions;
+	private BigIntegerHolder total_found;
+	private Search_auctionsHolder search_auctions;
 	SwistakMessageHolder _return;
 	SwistakMessageHolder err;
 
@@ -49,7 +54,7 @@ public class SearchAuctionsCommand implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public List<Search_auction> call() {
 		total_found = new BigIntegerHolder();
 		search_auctions = new Search_auctionsHolder();
 		_return = new SwistakMessageHolder();
@@ -63,6 +68,7 @@ public class SearchAuctionsCommand implements Runnable {
 					dostawa_gratis, typ_aukcji, sort, kat_id, strona, opis,
 					stan_towaru, limit, total_found, search_auctions, _return,
 					err);
+			return getSearchAuctions();
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		} catch (RemoteException e) {
@@ -98,5 +104,13 @@ public class SearchAuctionsCommand implements Runnable {
 	public SearchAuctionsCommand login(String login) {
 		this.login = login;
 		return this;
+	}
+	
+	public int getTotalAuctions() {
+		return total_found.value == null ? 0: total_found.value.intValue();
+	}
+
+	public List<Search_auction> getSearchAuctions() {
+		return search_auctions.value == null ? Collections.<Search_auction>emptyList() : Arrays.asList(search_auctions.value);
 	}
 }

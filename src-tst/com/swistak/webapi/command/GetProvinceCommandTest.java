@@ -14,9 +14,8 @@ public class GetProvinceCommandTest {
 	@Test
 	public void get_province_matches_Wojewodztwo_enums() {
 		GetProvinceCommand getProvince = new GetProvinceCommand();
-		getProvince.run();
 
-		List<com.swistak.webapi.Province> provinces = getProvince.getProvince();
+		List<com.swistak.webapi.Province> provinces = getProvince.call();
 		for (com.swistak.webapi.Province province : provinces) {
 			Province.valueOf(province.getProvince().replace('-', '_').replace(' ', '$'));
 		}

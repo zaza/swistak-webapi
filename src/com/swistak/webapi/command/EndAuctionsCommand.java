@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.xml.rpc.ServiceException;
 
@@ -19,7 +20,7 @@ import com.swistak.webapi.model.EndAuctionsStatus;
  * http://www.swistak.pl/out/wsdl/wsdl.html?method=end_auctions
  *
  */
-public class EndAuctionsCommand implements Runnable {
+public class EndAuctionsCommand implements Callable<List<Ids>> {
 
 	private final String hash;
 	private final BigInteger[] id;
@@ -35,18 +36,19 @@ public class EndAuctionsCommand implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public List<Ids> call() {
 		SwistakLocator service = new SwistakLocator();
 		try {
 			SwistakPortType port = service.getSwistakPort();
 			end_auctions = Arrays.asList(port.end_auctions(hash, id, id_out));
 			status = EndAuctionsStatus.OK;
+			return getEndAuctions();
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		} catch (AxisFault e) {
 			String faultCode = e.getFaultCode().getLocalPart();
 			status = EndAuctionsStatus.valueOf(faultCode);
-			return;
+			return getEndAuctions();
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}

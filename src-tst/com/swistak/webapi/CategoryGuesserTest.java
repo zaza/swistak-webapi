@@ -35,9 +35,9 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 	@Test
 	public void guess_category_for_auctions_by_login() {
 		SearchAuctionsCommand search = SearchAuctionsCommand.fraza("").login(getLogin());
-		search.run();
+		List<Search_auction> auctions = search.call();
 
-		for (Search_auction my_auction : search.search_auctions.value) {
+		for (Search_auction my_auction : auctions) {
 			Category category = CategoryGuesser.withCategoryTree(getTree())
 					.guess(my_auction.getTitle());
 			assertEquals(my_auction.getKat_id(), category.getId());
@@ -48,8 +48,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 	@Ignore
 	public void guess_category_for_my_auctions() {
 		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash());
-		myAuctions.run();
-		List<My_auction> auctions = myAuctions.getMyAuctions();
+		List<My_auction> auctions = myAuctions.call();
 
 		// TODO: founds first 25
 		LOG.debug(format("Found %d", auctions.size()));

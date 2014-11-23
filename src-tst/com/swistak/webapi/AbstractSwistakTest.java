@@ -30,8 +30,7 @@ public abstract class AbstractSwistakTest {
 		if (hash == null) {
 			GetHashCommand getHash = new GetHashCommand(getLogin(),
 					getPassword());
-			getHash.run();
-			hash = getHash.getHash();
+			hash = getHash.call();
 		}
 		return hash;
 	}
@@ -59,7 +58,7 @@ public abstract class AbstractSwistakTest {
 	
 	protected Ids addAuction() {
 		AddAuctionCommand add = new AddAuctionCommand(getHash(), getTestAuctionParams());
-		add.run();
+		add.call();
 
 		assertEquals(AddAuctionStatus.OK, add.getStatus());
 		assertTrue(add.getIds().getId() > 0);
@@ -69,16 +68,16 @@ public abstract class AbstractSwistakTest {
 	
 	protected void getAuctionAndAssertTitle(long id, String title) {
 		GetAuctionsCommand get = new GetAuctionsCommand(getHash()).auctions(id);
-		get.run();
+		get.call();
 
 		assertEquals(GetAuctionsStatus.OK, get.getStatus());
-		assertEquals(1, get.getAuctionArray().length);
-		assertEquals(title, get.getAuctionArray()[0].getTitle());
+		assertEquals(1, get.getAuctionArray().size());
+		assertEquals(title, get.getAuctionArray().get(0).getTitle());
 	}
 	
 	protected void endAuction(Ids ids) {
 		EndAuctionsCommand end = new EndAuctionsCommand(getHash(), new Ids[] {ids});
-		end.run();
+		end.call();
 
 		assertEquals(EndAuctionsStatus.OK, end.getStatus());
 		assertEquals(1, end.getEndAuctions().size());

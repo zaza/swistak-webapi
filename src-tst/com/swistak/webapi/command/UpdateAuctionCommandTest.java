@@ -17,7 +17,7 @@ public class UpdateAuctionCommandTest extends AbstractSwistakTest {
 		UpdateAuctionParamsBuilder paramsBuilder = new UpdateAuctionParamsBuilder(ids.getId());
 		paramsBuilder.title("Aukcja testowa zauktualizowana przez WebAPI");
 		UpdateAuctionCommand update = new UpdateAuctionCommand(getHash(), paramsBuilder.build());
-		update.run();
+		update.call();
 		
 		// get
 		getAuctionAndAssertTitle(ids.getId(), "Aukcja testowa zauktualizowana przez WebAPI");

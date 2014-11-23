@@ -14,7 +14,7 @@ public class GetMyAuctionsCommandTest extends AbstractSwistakTest {
 	public void my_auctions_not_empty() {
 		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash());
 		
-		myAuctions.run();
+		myAuctions.call();
 		
 		assertTrue(myAuctions.getTotalAuctions() > 0);
 		assertFalse(myAuctions.getMyAuctions().isEmpty());
@@ -23,10 +23,8 @@ public class GetMyAuctionsCommandTest extends AbstractSwistakTest {
 	@Test
 	public void my_auctions_by_login_not_empty() {
 		GetIdByLoginCommand getId = new GetIdByLoginCommand("miklosznet");
-		getId.run();
-		
-		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash()).userId(getId.getId()).limit(10);
-		myAuctions.run();
+		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash()).userId(getId.call()).limit(10);
+		myAuctions.call();
 		
 		assertTrue(myAuctions.getTotalAuctions() > 0);
 		assertFalse(myAuctions.getMyAuctions().isEmpty());
@@ -35,10 +33,8 @@ public class GetMyAuctionsCommandTest extends AbstractSwistakTest {
 	@Test
 	public void my_auctions_by_login_empty() {
 		GetIdByLoginCommand getId = new GetIdByLoginCommand("2sloma");
-		getId.run();
-		
-		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash()).userId(getId.getId());
-		myAuctions.run();
+		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash()).userId(getId.call());
+		myAuctions.call();
 		
 		assertEquals(0, myAuctions.getTotalAuctions());
 		assertTrue(myAuctions.getMyAuctions().isEmpty());
