@@ -1,28 +1,25 @@
 package com.swistak.webapi.category;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import com.swistak.webapi.category.CategoryTreeBuilder;
-import com.swistak.webapi.category.Tree;
 import com.swistak.webapi.category.Tree.TreeNode;
 
 public class CategoryTreeBuilderTest {
 	@Test
-	@Ignore
 	public void build_kategorie_xml() {
 		CategoryTreeBuilder builder = new CategoryTreeBuilder(new File("data-tst/kategorie.xml"));
 		Tree<Category> tree = builder.build();
 		
+		assertEquals(6, builder.getExceptions().size());
 		assertNotNull(tree);
-		assertFalse(builder.getExceptions().isEmpty());
+		assertEquals("2014-05-13 12:31:28", tree.getRoot().getData().getName());
+		assertEquals(23751, tree.getSize());
 	}
 	
 	@Test
