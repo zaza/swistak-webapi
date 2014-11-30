@@ -91,9 +91,9 @@ public class CategoryTreeBuilder {
 				if (parent != null) {
 					parent.addChild(childTreeNode);
 				} else {
-					LOG.error(format("No parent found for %d", id));
+					LOG.error(format("No parent found for '%s' (%d)", name, id));
 					exceptions.add(new IllegalStateException(format(
-							"No parent found for %d", id)));
+							"No parent found for '%s' (%d)", name, id)));
 				}
 			}
 		}

@@ -13,7 +13,7 @@ import com.swistak.webapi.category.Tree.TreeNode;
 public class CategoryTreeBuilderTest {
 	@Test
 	public void build_kategorie_xml() {
-		CategoryTreeBuilder builder = new CategoryTreeBuilder(new File("data-tst/kategorie.xml"));
+		CategoryTreeBuilder builder = new CategoryTreeBuilder(new File("data-tst/auctions-root/kategorie.xml"));
 		Tree<Category> tree = builder.build();
 		
 		assertEquals(6, builder.getExceptions().size());

@@ -30,12 +30,19 @@ public class ScannerTest {
 	public void root_is_not_a_directory() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("is not a directory");
-		new Scanner(new File("data-tst/kategorie.xml"));
+		new Scanner(new File("data-tst/auctions-root/kategorie.xml"));
 	}
 
 	@Test
 	public void no_subfolders() {
-		assertTrue(new Scanner(new File("data-tst/auctions-root/auction")).scan().isEmpty());
+		assertTrue(new Scanner(new File("data-tst/auctions-root/non-auction")).scan().isEmpty());
+	}
+	
+	@Test
+	public void missing_kategorie_xml() {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("kategorie.xml file does not exist");
+		new Scanner(new File("data-tst"));
 	}
 
 	@Test
@@ -57,6 +64,6 @@ public class ScannerTest {
 		assertEquals("Warszawa", auction.getCity());
 		assertEquals(Province.Mazowieckie, auction.getProvince());
 		assertEquals(ConditionProduct.uzywany, auction.getCondition());
-		//TODO: assertEquals(30696, auction.getCategory());
+		assertEquals(30696, auction.getCategory());
 	}
 }

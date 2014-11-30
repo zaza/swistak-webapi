@@ -73,7 +73,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 				.guess("opony letnie");
 		String fullPath = getCategoryFullPath(category.getId());
 		
-		assertTrue(fullPath.startsWith("Motoryzacja > Ogumienie > Opony samochodowe > Letnie >"));
+		assertTrue(fullPath.startsWith("Motoryzacja : Ogumienie : Opony samochodowe : Letnie :"));
 	}
 
 	private String getCategoryFullPath(long id) {
@@ -83,7 +83,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 		for (Iterator<TreeNode<Category>> it = fullPath.iterator(); it.hasNext();) {
 			sb.append(it.next().getData().getName());
 			if (it.hasNext())
-				sb.append(" > ");
+				sb.append(" : ");
 		}
 		return sb.toString();
 	}
@@ -91,7 +91,7 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 	private Tree<Category> getTree() {
 		if (tree == null) {
 			CategoryTreeBuilder builder = new CategoryTreeBuilder(new File(
-					"data-tst/kategorie.xml"));
+					"data-tst/auctions-root/kategorie.xml"));
 			tree = builder.build();
 		}
 		return tree;

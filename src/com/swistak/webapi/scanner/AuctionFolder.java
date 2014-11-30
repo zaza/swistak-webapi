@@ -5,13 +5,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Properties;
+import java.util.Stack;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Charsets;
+import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import com.swistak.webapi.Auction_costs_delivery;
 import com.swistak.webapi.Auction_parameter;
+import com.swistak.webapi.category.Category;
+import com.swistak.webapi.category.Tree;
+import com.swistak.webapi.category.Tree.TreeNode;
 import com.swistak.webapi.model.AuctionParams;
 import com.swistak.webapi.model.AuctionType;
 import com.swistak.webapi.model.AuctionUnit;
@@ -22,12 +28,15 @@ import com.swistak.webapi.model.WhoPayment;
 
 public class AuctionFolder implements AuctionParams {
 
-	private File folder;
+	private final File folder;
 
+	private final Tree<Category> tree;
+	
 	private Properties properties;
 
-	public AuctionFolder(File folder) {
+	public AuctionFolder(File folder, Tree<Category> tree) {
 		this.folder = folder;
+		this.tree = tree;
 	}
 
 	public boolean hasDescription() {
@@ -79,8 +88,25 @@ public class AuctionFolder implements AuctionParams {
 
 	@Override
 	public int getCategory() {
-		// TODO Auto-generated method stub
-		return 0;
+		String kategoria = getProperties().getProperty("kategoria");
+		List<String> categories = Splitter.on(':').trimResults().splitToList(kategoria);
+		Stack<String> stack = new Stack<String>();
+		for (int i = categories.size() - 1; i >= 0; i--) {
+			stack.push(categories.get(i));
+		}
+		return findInChildren(tree.getRoot().getChildren(), stack);
+	}
+	
+	private int findInChildren(List<TreeNode<Category>> children, Stack<String> stack) {
+		String category = stack.pop();
+		for (TreeNode<Category> child : children) {
+			if (child.getData().getName().equals(category)) {
+				if (child.getChildren().isEmpty())
+					return child.getData().getId();
+				return findInChildren(child.getChildren(), stack);
+			}
+		}
+		return Category.UNKNOWN.getId();
 	}
 
 	@Override
