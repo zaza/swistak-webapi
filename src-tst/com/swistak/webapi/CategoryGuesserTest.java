@@ -8,8 +8,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.swistak.webapi.category.Category;
@@ -22,14 +21,11 @@ import com.swistak.webapi.command.SearchAuctionsCommand;
 
 public class CategoryGuesserTest extends AbstractSwistakTest {
 
-	private static final Logger LOG = Logger.getLogger(CategoryGuesserTest.class);
-
-	private Tree<Category> tree;
+	private static Tree<Category> tree;
 
 	@Test
 	public void random_title() {
-		assertEquals(Category.UNKNOWN,
-				CategoryGuesser.withCategoryTree(getTree()).guess("qwertyuiop"));
+		assertTrue(CategoryGuesser.withCategoryTree(tree).guess("qwertyuiop").isUnknown());
 	}
 
 	@Test
@@ -38,38 +34,35 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 		List<Search_auction> auctions = search.call();
 
 		for (Search_auction my_auction : auctions) {
-			Category category = CategoryGuesser.withCategoryTree(getTree())
+			Category category = CategoryGuesser.withCategoryTree(tree)
 					.guess(my_auction.getTitle());
 			assertEquals(my_auction.getKat_id(), category.getId());
 		}
 	}
 
 	@Test
-	@Ignore
 	public void guess_category_for_my_auctions() {
-		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash());
+		GetMyAuctionsCommand myAuctions = new GetMyAuctionsCommand(getHash()).limit(100);
 		List<My_auction> auctions = myAuctions.call();
 
-		// TODO: founds first 25
-		LOG.debug(format("Found %d", auctions.size()));
-		for (My_auction my_auction : auctions) {
-			int catSwistakId = my_auction.getCategory_id().intValue();
+		for (My_auction auction : auctions) {
+			int catSwistakId = auction.getCategory_id().intValue();
 			String catSwistakPath = getCategoryFullPath(catSwistakId);
-			Category catGuess = CategoryGuesser.withCategoryTree(getTree())
-					.guess(my_auction.getTitle());
-			String catGuessPath = getCategoryFullPath(catGuess.getId());
-			// TODO: replace with assert
-			if (catSwistakId != catGuess.getId()) {
-				LOG.debug(format("%s: %d (%s) ?=? %d (%s)",
-					my_auction.getTitle(), catSwistakId, catSwistakPath,
-					catGuess.getId(), catGuessPath));
+			Category catGuess = CategoryGuesser.withCategoryTree(tree)
+					.guess(auction.getTitle());
+			if (!catGuess.isUnknown()) {
+				String catGuessPath = getCategoryFullPath(catGuess.getId());
+				assertEquals(
+						format("Expected category for '%s' is '%s', got '%s'",
+								auction.getTitle(), catSwistakPath,
+								catGuessPath), catSwistakId, catGuess.getId());
 			}
 		}
 	}
 	
 	@Test
 	public void guess_opony() {
-		Category category = CategoryGuesser.withCategoryTree(getTree())
+		Category category = CategoryGuesser.withCategoryTree(tree)
 				.guess("opony letnie");
 		String fullPath = getCategoryFullPath(category.getId());
 		
@@ -77,8 +70,8 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 	}
 
 	private String getCategoryFullPath(long id) {
-		TreeNode<Category> category = getTree().find(new CategoryIdMatcher(id));
-		List<TreeNode<Category>> fullPath = getTree().getFullPath(category);
+		TreeNode<Category> category = tree.find(new CategoryIdMatcher(id));
+		List<TreeNode<Category>> fullPath = tree.getFullPath(category);
 		StringBuilder sb = new StringBuilder();
 		for (Iterator<TreeNode<Category>> it = fullPath.iterator(); it.hasNext();) {
 			sb.append(it.next().getData().getName());
@@ -88,12 +81,10 @@ public class CategoryGuesserTest extends AbstractSwistakTest {
 		return sb.toString();
 	}
 
-	private Tree<Category> getTree() {
-		if (tree == null) {
-			CategoryTreeBuilder builder = new CategoryTreeBuilder(new File(
-					"data-tst/auctions-root/kategorie.xml"));
-			tree = builder.build();
-		}
-		return tree;
+	@BeforeClass
+	public static void buildCategoryTree() {
+		CategoryTreeBuilder builder = new CategoryTreeBuilder(new File(
+				"data-tst/auctions-root/kategorie.xml"));
+		tree = builder.build();
 	}
 }

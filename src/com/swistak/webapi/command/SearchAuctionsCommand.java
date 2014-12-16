@@ -33,7 +33,7 @@ public class SearchAuctionsCommand implements Callable<List<Search_auction>> {
 	private BigInteger odbior_osobisty = BigInteger.ZERO;
 	private BigInteger dostawa_gratis = BigInteger.ZERO;
 	private BigInteger typ_aukcji = BigInteger.ZERO;
-	private BigInteger sort = BigInteger.ONE;
+	private BigInteger sort = BigInteger.ZERO;
 	private BigInteger kat_id = BigInteger.ZERO;
 	private BigInteger strona = BigInteger.ONE;
 	private BigInteger opis = BigInteger.ZERO;
@@ -103,6 +103,26 @@ public class SearchAuctionsCommand implements Callable<List<Search_auction>> {
 
 	public SearchAuctionsCommand login(String login) {
 		this.login = login;
+		return this;
+	}
+	
+	public SearchAuctionsCommand po_tytulach() {
+		this.opis = BigInteger.ZERO;
+		return this;
+	}
+	
+	public SearchAuctionsCommand po_tytulach_i_opisach() {
+		this.opis = BigInteger.ONE;
+		return this;
+	}
+	
+	public SearchAuctionsCommand nowy() {
+		this.stan_towaru = BigInteger.ZERO;
+		return this;
+	}
+	
+	public SearchAuctionsCommand uzywany() {
+		this.stan_towaru = BigInteger.ONE;
 		return this;
 	}
 	

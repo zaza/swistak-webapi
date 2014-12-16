@@ -12,6 +12,7 @@ import com.swistak.webapi.model.WhoPayment;
 public class AddAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Auction_params> {
 
 	public AddAuctionParamsBuilder(String title, float price) {
+		// TODO remove '-' from title, excluded from searches
 		this.title = title;
 		this.price = price;
 		

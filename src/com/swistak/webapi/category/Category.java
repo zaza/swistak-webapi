@@ -20,4 +20,9 @@ public class Category {
 	public String getName() {
 		return name;
 	}
+	
+	public boolean isUnknown() {
+		return id == UNKNOWN.getId();
+	}
+	
 }
