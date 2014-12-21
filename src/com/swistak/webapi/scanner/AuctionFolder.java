@@ -34,6 +34,8 @@ public class AuctionFolder implements AuctionParams {
 	
 	private Properties properties;
 
+	private int category = Category.UNKNOWN.getId();
+
 	public AuctionFolder(File folder, Tree<Category> tree) {
 		this.folder = folder;
 		this.tree = tree;
@@ -89,12 +91,16 @@ public class AuctionFolder implements AuctionParams {
 	@Override
 	public int getCategory() {
 		String kategoria = getProperties().getProperty("kategoria");
-		List<String> categories = Splitter.on(':').trimResults().splitToList(kategoria);
-		Stack<String> stack = new Stack<String>();
-		for (int i = categories.size() - 1; i >= 0; i--) {
-			stack.push(categories.get(i));
+		if (kategoria != null) {
+			List<String> categories = Splitter.on(':').trimResults()
+					.splitToList(kategoria);
+			Stack<String> stack = new Stack<String>();
+			for (int i = categories.size() - 1; i >= 0; i--) {
+				stack.push(categories.get(i));
+			}
+			category = findInChildren(tree.getRoot().getChildren(), stack);
 		}
-		return findInChildren(tree.getRoot().getChildren(), stack);
+		return category;
 	}
 	
 	private int findInChildren(List<TreeNode<Category>> children, Stack<String> stack) {
@@ -116,7 +122,18 @@ public class AuctionFolder implements AuctionParams {
 
 	@Override
 	public ConditionProduct getCondition() {
-		return ConditionProduct.valueOf(getProperties().getProperty("stan"));
+		String stan = getProperties().getProperty("stan");
+		switch (stan) {
+			case "nowe" :
+				return ConditionProduct.nowy;
+			case "nowa" :
+				return ConditionProduct.nowy;
+			case "używane" :
+				return ConditionProduct.uzywany;
+			case "używana" :
+				return ConditionProduct.uzywany;
+		}
+		return ConditionProduct.valueOf(stan);
 	}
 
 	@Override
@@ -177,6 +194,14 @@ public class AuctionFolder implements AuctionParams {
 	public String getTags() {
 		// TODO:
 		throw new UnsupportedOperationException();
+	}
+
+	public boolean hasCategory() {
+		return getCategory() != Category.UNKNOWN.getId();
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
 	}
 
 }

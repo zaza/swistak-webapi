@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.swistak.webapi.model.AuctionParams;
 import com.swistak.webapi.model.AuctionUnit;
 import com.swistak.webapi.model.ConditionProduct;
@@ -49,12 +51,12 @@ public class ScannerTest {
 	public void auctions_root() {
 		Set<AuctionFolder> folders = new Scanner(new File("data-tst/auctions-root")).scan();
 		
-		assertEquals(1, folders.size());
+		assertEquals(2, folders.size());
 	}
 
 	@Test
 	public void auction() {
-		AuctionParams auction = new Scanner(new File("data-tst/auctions-root")).scan().iterator().next();
+		AuctionParams auction = findWithTitle("Aukcja testowa wystawiona przez WebAPI");
 
 		assertEquals("Aukcja testowa wystawiona przez WebAPI.\nAukcja testowa wystawiona przez WebAPI.\nAukcja testowa wystawiona przez WebAPI.", auction.getDescription());
 		assertEquals("Aukcja testowa wystawiona przez WebAPI", auction.getTitle());
@@ -65,5 +67,32 @@ public class ScannerTest {
 		assertEquals(Province.Mazowieckie, auction.getProvince());
 		assertEquals(ConditionProduct.uzywany, auction.getCondition());
 		assertEquals(30696, auction.getCategory());
+	}
+	
+	@Test
+	public void auction_no_category() {
+		AuctionParams auction = findWithTitle("Buty Nike");
+
+		assertEquals("Buty Nike.", auction.getDescription());
+		assertEquals("Buty Nike", auction.getTitle());
+		assertEquals(0.01f, auction.getPrice(), 0.0f);
+		assertEquals(AuctionUnit.sztuki, auction.getUnit());
+		assertEquals(1, auction.getCount());
+		assertEquals("Warszawa", auction.getCity());
+		assertEquals(Province.Mazowieckie, auction.getProvince());
+		assertEquals(ConditionProduct.nowy, auction.getCondition());
+		assertEquals(4536, auction.getCategory());
+	}
+	
+	private static AuctionParams findWithTitle(final String title) {
+		return Iterables.find(
+				new Scanner(new File("data-tst/auctions-root")).scan(),
+				new Predicate<AuctionParams>() {
+
+					@Override
+					public boolean apply(AuctionParams input) {
+						return input.getTitle().equals(title);
+					}
+				});
 	}
 }
