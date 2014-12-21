@@ -1,4 +1,4 @@
-package com.swistak.webapi;
+package com.swistak.webapi.category;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,9 +6,7 @@ import java.util.Set;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.swistak.webapi.category.Category;
-import com.swistak.webapi.category.CategoryIdMatcher;
-import com.swistak.webapi.category.Tree;
+import com.swistak.webapi.Search_auction;
 import com.swistak.webapi.command.SearchAuctionsCommand;
 
 public class CategoryGuesser {

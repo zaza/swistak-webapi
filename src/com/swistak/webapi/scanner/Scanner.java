@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.swistak.webapi.CategoryGuesser;
 import com.swistak.webapi.category.Category;
+import com.swistak.webapi.category.CategoryGuesser;
 import com.swistak.webapi.category.CategoryTreeBuilder;
 import com.swistak.webapi.category.Tree;
 

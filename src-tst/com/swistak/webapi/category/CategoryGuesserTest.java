@@ -1,4 +1,4 @@
-package com.swistak.webapi;
+package com.swistak.webapi.category;
 
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
@@ -11,7 +11,11 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.swistak.webapi.AbstractSwistakTest;
+import com.swistak.webapi.My_auction;
+import com.swistak.webapi.Search_auction;
 import com.swistak.webapi.category.Category;
+import com.swistak.webapi.category.CategoryGuesser;
 import com.swistak.webapi.category.CategoryIdMatcher;
 import com.swistak.webapi.category.CategoryTreeBuilder;
 import com.swistak.webapi.category.Tree;

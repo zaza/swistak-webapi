@@ -1,11 +1,10 @@
 package com.swistak.webapi.category;
 
-
-public class CategoryIdMatcher implements Matcher<Category> {
+class CategoryIdMatcher implements Matcher<Category> {
 
 	private long id;
 
-	public CategoryIdMatcher(long id) {
+	CategoryIdMatcher(long id) {
 		this.id = id;
 	}
 
