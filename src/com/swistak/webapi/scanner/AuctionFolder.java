@@ -1,10 +1,15 @@
 package com.swistak.webapi.scanner;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Stack;
@@ -35,6 +40,8 @@ public class AuctionFolder implements AuctionParams {
 	private Properties properties;
 
 	private int category = Category.UNKNOWN.getId();
+
+	private List<File> photos;
 
 	public AuctionFolder(File folder, Tree<Category> tree) {
 		this.folder = folder;
@@ -202,6 +209,37 @@ public class AuctionFolder implements AuctionParams {
 
 	public void setCategory(int category) {
 		this.category = category;
+	}
+
+	public List<File> getPhotos() {
+		return this.photos;
+	}
+
+	public boolean hasId() {
+		return getProperties().containsKey("id");
+	}
+
+	public long getId() {
+		checkState(hasId());
+		return Long.parseLong(getProperties().getProperty("id"));
+	}
+
+	public void setPhotos(File[] photos) {
+		this.photos = Arrays.asList(photos);
+	}
+
+	public void setId(long id) {
+		getProperties().put("id", Long.toString(id));
+	}
+
+	public void save() {
+		try {
+			FileOutputStream fos = new FileOutputStream(getParametersFile());
+			OutputStreamWriter osw = new OutputStreamWriter(fos, Charsets.UTF_8);
+			getProperties().store(osw, null);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

@@ -1,9 +1,11 @@
 package com.swistak.webapi.scanner;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +21,7 @@ public class Scanner {
 	private File root;
 
 	public Scanner(File root) {
+		checkNotNull(root, "Root directory must be provided.");
 		checkArgument(root.exists(), "%s does not exist.", root);
 		checkArgument(root.isDirectory(), "%s is not a directory.", root);
 		checkArgument(new File(root, "kategorie.xml").exists(), "kategorie.xml file does not exist.");
@@ -46,6 +49,14 @@ public class Scanner {
 					Category guess = CategoryGuesser.withCategoryTree(tree).guess(auctionFolder.getTitle());
 					auctionFolder.setCategory(guess.getId());
 				}
+				File[] photos = folder.listFiles(new FilenameFilter() {
+					
+					@Override
+					public boolean accept(File dir, String name) {
+						return name.endsWith(".jpg");
+					}
+				});
+				auctionFolder.setPhotos(photos);
 				auctionFolders.add(auctionFolder);
 			}
 		}

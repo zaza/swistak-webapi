@@ -6,5 +6,5 @@ Klient [ŚwistakAPI](http://www.swistak.pl/usluga.php?id=502), czy jak kto woli 
 Przykłady użycia:
 * `com.swistak.webapi.Search` -- wyszukiwanie wg zadanych kryteriów
 * `com.swistak.webapi.category.CategoryGuesser` -- zgaduje kategorię na podstawie tytułu
-* `com.swistak.webapi.scanner.Scanner` -- automatycznie wystawia aukcje ze wskazanego folderu
+* `com.swistak.webapi.Auctioneer` -- automatycznie wystawia aukcje ze wskazanego foldera
 * więcej w testach -- `mvn test`
