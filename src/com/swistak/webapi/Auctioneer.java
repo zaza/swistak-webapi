@@ -25,6 +25,10 @@ public class Auctioneer {
 
 	private String hash;
 
+	public static void main(String[] args) {
+		Auctioneer.create().credentials(args[0], args[1]).scan(new File(args[2])).start();
+	}
+
 	public static Auctioneer create() {
 		return new Auctioneer();
 	}
@@ -60,7 +64,7 @@ public class Auctioneer {
 	}
 
 	private void updateIfNeeded(AuctionFolder auction) {
-		LOG.error(format("Aktualizowanie aukcji nie jest jeszcze dostępne. Aukcja %d pominięta.", auction.getId()));
+		LOG.error(format("Aktualizowanie aukcji nie jest jeszcze dostępne. Aukcja '%s' (%d) pominięta.", auction.getTitle(), auction.getId()));
 	}
 
 	private void add(AuctionFolder auction) {
@@ -85,9 +89,9 @@ public class Auctioneer {
 			// add
 			Ids ids = new AddAuctionCommand(hash, paramsBuilder.build()).call();
 			storeIds(auction, ids);
-			LOG.info("Dodano aukcje o numerze " + ids.getId());
+			LOG.info(format("Dodano aukcje o numerze '%s' (%d)", auction.getTitle(), ids.getId()));
 		} catch (Exception e) {
-			LOG.error("Nieudało się dodać aukcji " + auction.getTitle());
+			LOG.error(format("Nieudało się dodać aukcji '%s'",  auction.getTitle()));
 		}
 	}
 

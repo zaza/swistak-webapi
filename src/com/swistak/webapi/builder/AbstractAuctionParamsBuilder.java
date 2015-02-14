@@ -1,6 +1,6 @@
 package com.swistak.webapi.builder;
 
-import static java.text.MessageFormat.format;
+import static java.lang.String.format;
 
 import com.swistak.webapi.Auction_costs_delivery;
 import com.swistak.webapi.Auction_foto;
@@ -113,22 +113,22 @@ public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements Auctio
 
 	protected static void checkMinLength(String string, int length) {
 		if (string.length() < length)
-			throw new IllegalArgumentException(format("'{0}' is too short. Minimum length for the param is {1}.", string, length));
+			throw new IllegalArgumentException(format("'%s' is too short. Minimum length for the param is %d.", string, length));
 	}
 
 	protected static void checkMaxLength(String string, int length) {
 		if (string.length() > length)
-			throw new IllegalArgumentException(format("'{0}' is too long. Maximum length for the param is {1}.", string, length));
+			throw new IllegalArgumentException(format("'%s' is too long. Maximum length for the param is %d.", string, length));
 	}
 
 	protected static void checkMinValue(Number number, Number value) {
 		if (number.doubleValue() < value.doubleValue())
-			throw new IllegalArgumentException(format("{0} is too low. Minimum value for the param is {1}.", number, value));
+			throw new IllegalArgumentException(format("%.2f is too low. Minimum value for the param is %.2f.", number, value));
 	}
 
 	protected static void checkMaxValue(Number number, Number value) {
 		if (number.doubleValue() > value.doubleValue())
-			throw new IllegalArgumentException(format("{0} is too high. Maximum value for the param is {1}.", number, value));
+			throw new IllegalArgumentException(format("%.2f is too high. Maximum value for the param is %.2f.", number, value));
 	}
 
 	protected static void checkNotEmpty(String string) {

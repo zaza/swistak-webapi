@@ -137,6 +137,8 @@ public class AuctionFolder implements AuctionParams {
 				return ConditionProduct.nowy;
 			case "używane" :
 				return ConditionProduct.uzywany;
+			case "uzywane" :
+				return ConditionProduct.uzywany;
 			case "używana" :
 				return ConditionProduct.uzywany;
 		}

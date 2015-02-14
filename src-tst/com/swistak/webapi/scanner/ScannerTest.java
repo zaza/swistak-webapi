@@ -73,7 +73,7 @@ public class ScannerTest {
 	public void auction_no_category() {
 		AuctionParams auction = findWithTitle("Buty Nike");
 
-		assertEquals("Buty Nike.", auction.getDescription());
+		assertEquals("Buty Nike. Nie Adidasy ani File.", auction.getDescription());
 		assertEquals("Buty Nike", auction.getTitle());
 		assertEquals(0.01f, auction.getPrice(), 0.0f);
 		assertEquals(AuctionUnit.sztuki, auction.getUnit());
