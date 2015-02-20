@@ -1,7 +1,9 @@
 package com.swistak.webapi.builder;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
 
+import com.google.common.collect.Range;
 import com.swistak.webapi.Auction_costs_delivery;
 import com.swistak.webapi.Auction_foto;
 import com.swistak.webapi.Auction_parameter;
@@ -9,7 +11,7 @@ import com.swistak.webapi.Cost_delivery;
 import com.swistak.webapi.model.AuctionType;
 import com.swistak.webapi.model.AuctionUnit;
 import com.swistak.webapi.model.ConditionProduct;
-import com.swistak.webapi.model.DeliveryInfo;
+import com.swistak.webapi.model.DeliveryInfoWithCostDelivery;
 import com.swistak.webapi.model.Province;
 import com.swistak.webapi.model.WhoPayment;
 
@@ -21,7 +23,7 @@ public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements Auctio
 	protected int category = -1;
 	protected String city;
 	protected ConditionProduct condition;
-	protected DeliveryInfo[] deliveryInfo;
+	protected DeliveryInfoWithCostDelivery[] deliveryInfo;
 	protected String description;
 	protected Auction_foto[] fotos;
 	protected int count = -1;
@@ -52,7 +54,7 @@ public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements Auctio
 		return this;
 	}
 
-	public AbstractAuctionParamsBuilder<T> deliveryInfo(DeliveryInfo... deliveryInfo) {
+	public AbstractAuctionParamsBuilder<T> deliveryInfo(DeliveryInfoWithCostDelivery... deliveryInfo) {
 		this.deliveryInfo = deliveryInfo;
 		return this;
 	}
@@ -139,5 +141,13 @@ public abstract class AbstractAuctionParamsBuilder<T> /* TODO: implements Auctio
 	protected static void checkNotEmpty(Object[] array) {
 		if (array == null || array.length == 0)
 			throw new IllegalArgumentException("Expected a non-empty array.");
+	}
+	
+	protected static void checkMaxCount(DeliveryInfoWithCostDelivery[] deliveryInfos, Number count) {
+		for (DeliveryInfoWithCostDelivery deliveryInfo : deliveryInfos) {
+			Range<Integer> range = deliveryInfo.getRange();
+			if (range.hasUpperBound())
+				checkArgument(range.upperEndpoint() <= count.intValue(), format("Maksymalna liczba przedmiotów w dostawie (%d) jest wyższa od liczby wystawionych przedmiotów (%d)", range.upperEndpoint(), count.intValue()));
+		}
 	}
 }

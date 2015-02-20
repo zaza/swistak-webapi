@@ -7,8 +7,12 @@ import com.swistak.webapi.Auction_params;
 import com.swistak.webapi.model.AuctionType;
 import com.swistak.webapi.model.AuctionUnit;
 import com.swistak.webapi.model.DeliveryInfo;
+import com.swistak.webapi.model.DeliveryInfoWithCostDelivery;
 import com.swistak.webapi.model.WhoPayment;
 
+/**
+ * http://www.swistak.pl/out/wsdl/wsdl.html?type=auction_params
+ */
 public class AddAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Auction_params> {
 
 	public AddAuctionParamsBuilder(String title, float price) {
@@ -17,7 +21,7 @@ public class AddAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Auctio
 		this.price = price;
 		
 		this.type = AuctionType.kup_teraz;
-		this.deliveryInfo = new DeliveryInfo[]{DeliveryInfo.odbiór_osobisty};
+		this.deliveryInfo = new DeliveryInfoWithCostDelivery[]{new DeliveryInfoWithCostDelivery(DeliveryInfo.odbiór_osobisty)};
 		this.fotos = new Auction_foto[0];
 		this.count = 1;
 		this.unit = AuctionUnit.sztuki;
@@ -38,15 +42,17 @@ public class AddAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Auctio
 		checkNotEmpty(city);
 		checkMaxLength(city, 50);
 		checkNotEmpty(deliveryInfo);
-		// TODO: check cost delivery
+		checkMaxCount(deliveryInfo, count);
 		// TODO: check category in category tree
 
+		DeliveryInfoBuilder builder = createDeliveryInfoBuilder();
+		
 		Auction_params params = new Auction_params();
 		params.setCategory_id(BigInteger.valueOf(category));
 		params.setCity(city);
 		params.setCondition_product(condition.toBigInteger());
-		params.setCosts_delivery(costs_delivery);
-		params.setDelivery_info(createDeliveryInfoBuilder().build());
+		params.setCosts_delivery(builder.buildCostDelivery());
+		params.setDelivery_info(builder.buildDeliveryInfo());
 		params.setDescription(description);
 		params.setFotos(fotos);
 		//params.setId_out(id_out); // TODO

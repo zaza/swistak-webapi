@@ -44,6 +44,10 @@ public abstract class AbstractSwistakTest {
 	}
 
 	protected Auction_params getTestAuctionParams() {
+		return getTestAuctionParamsBuilder().build();
+	}
+	
+	protected AbstractAuctionParamsBuilder<Auction_params> getTestAuctionParamsBuilder() {
 		AbstractAuctionParamsBuilder<Auction_params> builder = new AddAuctionParamsBuilder("Aukcja testowa wystawiona przez WebAPI", 0.01f) //
 		// "Pozostałe > Pozostałe > Serwis Swistak.pl"
 		.category(30696) //
@@ -53,7 +57,7 @@ public abstract class AbstractSwistakTest {
 		.count(1) //
 		.province(Province.Mazowieckie)
 		.fotos(new AuctionFotosBuilder().foto(new File("data-tst/auctions-root/auction/logo.jpg")).build());
-		return builder.build();
+		return builder;
 	}
 	
 	protected Ids addAuction() {

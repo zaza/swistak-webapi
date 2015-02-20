@@ -29,6 +29,9 @@ public class UpdateAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Upd
 
 	@Override
 	public Update_auction_params build() {
+		// TODO: issue #6: fix delivery costs update
+		//DeliveryInfoBuilder builder = createDeliveryInfoBuilder();
+
 		Update_auction_params params = new Update_auction_params();
 		params.setId(id);
 		if (category != -1)
@@ -37,9 +40,10 @@ public class UpdateAuctionParamsBuilder extends AbstractAuctionParamsBuilder<Upd
 		if (condition != null)
 			params.setCondition_product(condition.toBigInteger());
 		if (costs_delivery != null)
-			params.setCosts_delivery(costs_delivery);
-		if (deliveryInfo != null)
-			params.setDelivery_info(createDeliveryInfoBuilder().build());
+			params.setCosts_delivery(DeliveryInfoBuilder.createEmptyAuctionCostsDelivery());
+		if (deliveryInfo != null) {
+//			params.setDelivery_info(builder.buildDeliveryInfo());
+		}
 		params.setDescription(description);
 		if (fotos != null)
 			params.setFotos(fotos);
