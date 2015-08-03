@@ -34,6 +34,14 @@ public class CategoryTreeBuilder {
 	}
 
 	public Tree<Category> build() {
+		return build(true);
+	}
+
+	Tree<Category> buildRootOnly() {
+		return build(false);
+	}
+
+	private Tree<Category> build(boolean traverse) {
 		try {
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
@@ -43,8 +51,8 @@ public class CategoryTreeBuilder {
 			String date = getDate(doc);
 			NodeList kategories = doc.getElementsByTagName("kategoria");
 			Tree<Category> tree = new Tree<Category>(new Category(0, date));
-
-			traverse(kategories, 0, tree);
+			if (traverse)
+				traverse(kategories, 0, tree);
 
 			return tree;
 		} catch (Exception e) {
