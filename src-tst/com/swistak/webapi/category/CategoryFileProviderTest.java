@@ -55,4 +55,31 @@ public class CategoryFileProviderTest {
 		assertTrue(file.exists());
 		assertThat(FileUtils.checksumCRC32(file), not(equalTo(checksum))); // updated
 	}
+	
+	@Test
+	public void fetch_if_failed_to_parse_date() throws IOException {
+		File tempCategoriesFile = new File(folder.getRoot(), CategoryFileProvider.KATEGORIE_FILENAME);
+		CategoryFileProvider provider = new CategoryFileProvider(folder.getRoot());
+		FileUtils.write(tempCategoriesFile,
+				"<?xml version=\"1.0\" encoding=\"UTF-8\"?><kategorie date=\"not-a-date\"></kategorie>");
+		long checksum = FileUtils.checksumCRC32(tempCategoriesFile);
+
+		File file = provider.get();
+
+		assertTrue(file.exists());
+		assertThat(FileUtils.checksumCRC32(file), not(equalTo(checksum))); // updated
+	}
+
+	@Test
+	public void do_nothing_if_not_category_file() throws IOException {
+		File root = new File("data-tst/auctions-root/non-auction");
+		File categoriesFile = new File(root, CategoryFileProvider.KATEGORIE_FILENAME);
+		CategoryFileProvider provider = new CategoryFileProvider(root);
+		long checksum = FileUtils.checksumCRC32(categoriesFile);
+
+		File file = provider.get();
+
+		assertTrue(file.exists());
+		assertEquals(checksum, FileUtils.checksumCRC32(file)); // not updated
+	}
 }

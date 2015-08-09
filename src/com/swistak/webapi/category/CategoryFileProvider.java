@@ -32,12 +32,24 @@ public class CategoryFileProvider {
 
 	public File get() throws IOException {
 		File file = new File(root, KATEGORIE_FILENAME);
-		if (!file.exists() || isOutDated(file)) {
+		if (!file.exists() || (isCategoryFile(file) && isOutDated(file))) {
 			fetch(file);
 		}
 		return file;
 	}
 
+	 static boolean isCategoryFile(File file) {
+		return file.isFile() && file.getName().endsWith("xml") && isXML(file);
+	}
+
+	private static boolean isXML(File file) {
+		try {
+			return FileUtils.readLines(file).get(0).startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		} catch (IOException e) {
+			return false;
+		}
+	}
+	
 	private boolean isOutDated(File file) throws IOException {
 		try {
 			// Last-Modified date is usually few secs after the date in the xml file

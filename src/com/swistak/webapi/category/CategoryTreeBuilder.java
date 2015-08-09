@@ -1,5 +1,6 @@
 package com.swistak.webapi.category;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
 
 import java.io.File;
@@ -43,6 +44,7 @@ public class CategoryTreeBuilder {
 
 	private Tree<Category> build(boolean traverse) {
 		try {
+			checkArgument(CategoryFileProvider.isCategoryFile(file));
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(file);
