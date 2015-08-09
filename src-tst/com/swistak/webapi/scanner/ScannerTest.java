@@ -1,9 +1,6 @@
 package com.swistak.webapi.scanner;
 
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -85,7 +82,7 @@ public class ScannerTest {
 		assertEquals(Province.Mazowieckie, auction.getProvince());
 		assertEquals(ConditionProduct.nowy, auction.getCondition());
 		// buty sportowe Nike w obuwiu damskim lub męskim
-		assertThat(auction.getCategory(), anyOf(equalTo(4530), equalTo(4536)));
+		assertTrue(auction.getCategory() == 4530 || auction.getCategory() == 4536);
 	}
 	
 	private static AuctionParams findWithTitle(final String title) {
